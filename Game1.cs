@@ -116,7 +116,7 @@ namespace RenderTarget2DSample
 			Components.Add(fps);
 			
 			glasses = new GlassesUI(this, spriteBatch);
-			
+
 		}
 
 		/// <summary>
@@ -222,7 +222,8 @@ namespace RenderTarget2DSample
 			spriteBatch.Begin();
 				bkgnd.Draw(gameTime,spriteBatch);
 				level.Draw(gameTime);
-				base.Draw (gameTime);		
+				glasses.drawGlasses(gameTime);
+				base.Draw (gameTime);
 			spriteBatch.End();
 			
 		}

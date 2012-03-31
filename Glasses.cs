@@ -2,11 +2,18 @@
 using System.Collections;
 using System.Linq;
 using System.Text;
-using RenderTarget2DSample;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
+#if ANDROID
+using Android.App;
+#endif
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace RenderTarget2DSample
 {
@@ -29,8 +36,9 @@ namespace RenderTarget2DSample
             glassesObjects.Add(glasses2 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses1.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
             glassesObjects.Add(glasses3 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses2.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
             glassesObjects.Add(glasses4 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses3.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
-
+			
             ((GlassesSprite)(glassesObjects[0])).isSelected = true;
+
 
         }
 
@@ -46,7 +54,13 @@ namespace RenderTarget2DSample
             PhysObjects,
             Items
         }
-
+		 public void drawGlasses(GameTime gameTime)
+		  {
+		   foreach (GlassesSprite i in glassesObjects)
+		            {
+		                i.Draw(gameTime);
+		            }
+		        }
     }
 
 
@@ -55,11 +69,12 @@ namespace RenderTarget2DSample
 
         private GlassesUI.Glasses glasses;
         private bool thisSelected = false;
-
+		protected bool isSpriteVisible = true;
+		
         public GlassesSprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, GlassesUI.Glasses glassesType = GlassesUI.Glasses.Light)
             : base(game, tileSheet, Batch, pos, t, false)
             {    
-                glasses = glassesType;                
+                glasses = glassesType;
             }
 
             public Vector2 ObjectPosition{
@@ -85,11 +100,13 @@ namespace RenderTarget2DSample
 
             public virtual void Update(GameTime gameTime)
             {
-
+			
             }
 
             public virtual void Draw(GameTime gameTime)
             {
+			
+			
                 if (Tile == MapLoader.TileType.Glasses)
                     {
 				

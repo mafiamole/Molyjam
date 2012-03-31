@@ -13,7 +13,7 @@ namespace RenderTarget2DSample
             protected SpriteBatch 		spriteBatch;
             protected bool 				isDynamic; 
             protected Texture2D		 	TileSheet;
-			protected bool 				hide;
+			protected bool 				isSpriteVisible;
 		
             public Sprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, bool dynamicObject = false) :
 			base(game)
@@ -22,9 +22,21 @@ namespace RenderTarget2DSample
                 Tile = t;
                 spriteBatch = Batch;
                 TileSheet = tileSheet;
-
+				
             }
-
+		
+			public bool isVisible
+            {
+                get
+                {
+                    return isSpriteVisible;
+                }
+                set
+                {
+                    isSpriteVisible = value;
+                }
+            }
+			
             public void Update(GameTime gameTime,Vector2 changeVector)
             {
 				Position += changeVector;
