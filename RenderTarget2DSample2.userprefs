@@ -1,8 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../MacOS/RenderTarget2DSample/Game1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Game1.cs">
     <Files>
-      <File FileName="../../MacOS/RenderTarget2DSample/Game1.cs" Line="164" Column="1" />
+      <File FileName="Game1.cs" Line="222" Column="23" />
+      <File FileName="Glasses.cs" Line="96" Column="84" />
+      <File FileName="Sprite.cs" Line="30" Column="1" />
+      <File FileName="MapLoader.cs" Line="49" Column="130" />
+      <File FileName="Map.cs" Line="45" Column="1" />
+      <File FileName="Background.cs" Line="55" Column="1" />
+      <File FileName="Program.cs" Line="14" Column="1" />
+      <File FileName="FPSCounterComponent.cs" Line="36" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,14 +17,21 @@
           <Node name="FourEyes" expanded="True">
             <Node name="References" expanded="True" />
             <Node name="Content" expanded="True" />
-            <Node name="FPSCounterComponent.cs" selected="True" />
+            <Node name="Game1.cs" selected="True" />
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="119" />
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="154" />
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="104" />
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="87" />
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="83" />
+      <Breakpoint file="/home/mafiamole/projects/MonoGame-Samples/Linux/RenderTarget2DSample2/Game1.cs" line="218" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

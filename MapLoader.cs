@@ -9,14 +9,20 @@ namespace RenderTarget2DSample
 	public static class MapLoader
 	{
 		
-        public enum TileType
-        {
-            Ground,
-            Water,
-            Item,
-            NPC
-        }
-		
+		public enum TileType
+			{
+			 Ground,  //#
+			 Water,   //$
+			 Goo,     //&
+			 Rocks,   //%
+			 Spikes,  //^
+			 Key,     //1
+			 Life,    //2
+			 NPC_ground, //@
+			 NPC_Flyer, //*
+			 Player,   // No Symbol
+			 Glasses // No Symbol
+			}
         public static Map ReadFile(string filename, Texture2D TileSheet, Game1 game)
         {
             Int32 x = 0;
@@ -40,7 +46,7 @@ namespace RenderTarget2DSample
                                 tmp2.Add(new Sprite(game,TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Water));
                                 break;
                             case '1':
-                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Item));
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Key));
                                 break;
                             case '\t':
                                 x += 7;

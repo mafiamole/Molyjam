@@ -49,7 +49,7 @@ namespace RenderTarget2DSample
 		
 		Map level;
         Texture2D TileSheet;
-		
+		GlassesUI glasses;
 		bool shiftDown;
 
 		/// <summary>
@@ -115,6 +115,8 @@ namespace RenderTarget2DSample
 			level = MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
 			Components.Add(fps);
 			
+			//glasses = new GlassesUI(this, spriteBatch);
+			
 		}
 
 		/// <summary>
@@ -169,8 +171,17 @@ namespace RenderTarget2DSample
 				
 				direction.X = -1;	
 			}
-			
-			
+       		/*
+			if(kbstate.IsKeyDown(Keys.D1)){
+                glasses.SelectGlasses(0);
+            }else if(kbstate.IsKeyDown(Keys.D2)){
+                glasses.SelectGlasses(1);
+            }else if(kbstate.IsKeyDown(Keys.D3)){
+                glasses.SelectGlasses(2);
+            }else if(kbstate.IsKeyDown(Keys.D4)){
+                glasses.SelectGlasses(3);
+            }			
+			*/
 			if (kbstate.IsKeyDown(Keys.LeftShift))
 			{
 				speed.X = PlayrBaseSpeed * 10;
@@ -178,38 +189,42 @@ namespace RenderTarget2DSample
 			if (kbstate.IsKeyUp(Keys.LeftShift)) {
 				speed.X = PlayrBaseSpeed;
 			}
+
+
+							
 			
 			
-			
-			if ( ( (level.Position.X > 0) || (level.Position.X < level.Width) ) ) {
+			if ( ( (level.Position.X <= 0f) || (level.Position.X >= level.Width) ) ) {
 					changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 				}
 			else {
 				changeVector = Vector2.Zero;	
 			}
 			
+			
 			level.Update(gameTime,changeVector);
 			bkgnd.Update(gameTime,changeVector);
 			
 			base.Update (gameTime);
+		
 		}
 
 		/// <summary>
 		/// This is called when the game should draw itself.
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
-		protected override void Draw (GameTime gameTime)
+		protected void Draw (GameTime gameTime)
 		{
 			
             graphics.GraphicsDevice.Clear(Color.Black);
 
 
-			spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+			spriteBatch.Begin();
 				bkgnd.Draw(gameTime,spriteBatch);
 				level.Draw(gameTime);
 				base.Draw (gameTime);		
 			spriteBatch.End();
-
+			
 		}
 		
 		public static void GrabScreenshot(RenderTarget2D rendertarget)

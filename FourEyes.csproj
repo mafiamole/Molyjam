@@ -61,6 +61,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Glasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -81,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\map.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\glasses.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

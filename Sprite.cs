@@ -6,16 +6,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RenderTarget2DSample
 {
-	public class Sprite
+	public class Sprite : DrawableGameComponent
     {
-            private Vector2 			Position;
-            private MapLoader.TileType 	Tile;
-            private SpriteBatch 		spriteBatch;
-            private bool 				isDynamic; 
-            private Texture2D		 	TileSheet;
-			private bool 				hide;
+            protected Vector2 			Position;
+            protected MapLoader.TileType 	Tile;
+            protected SpriteBatch 		spriteBatch;
+            protected bool 				isDynamic; 
+            protected Texture2D		 	TileSheet;
+			protected bool 				hide;
 		
-            public Sprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, bool dynamicObject = false)
+            public Sprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, bool dynamicObject = false) :
+			base(game)
             {
                 Position = pos;
                 Tile = t;
