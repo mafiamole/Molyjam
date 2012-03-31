@@ -8,6 +8,13 @@ namespace RenderTarget2DSample
 	{
 		private ArrayList mapObjDa;
 		private int mapWidth;
+		private Vector2 position;
+		
+		public int Width {
+			get {
+				return mapWidth;	
+			}
+		}
 		
 		public ArrayList objects {
 		
@@ -16,7 +23,14 @@ namespace RenderTarget2DSample
 			}
 			
 		}
-
+		
+		public Vector2 Position {
+			get {
+				
+				return position;	
+				
+			}
+		}
 		
 		public Map (ArrayList objects,int width)
 		{
@@ -27,6 +41,7 @@ namespace RenderTarget2DSample
 		
 		public void Update(GameTime gameTime,Vector2 changeVector)
 		{
+			position += changeVector;
 			foreach (Sprite obj in mapObjDa)
 			{
 				obj.Update(gameTime,changeVector);

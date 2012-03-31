@@ -8,7 +8,6 @@
     <ProjectGuid>{DED4371E-B92B-46FC-B4A3-B56BCAE12477}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>RenderTarget2DSample</RootNamespace>
-    <AssemblyName>RenderTarget2DSample</AssemblyName>
     <StartupObject>RenderTarget2DSample.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -20,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AssemblyName>RenderTarget2DSample</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,6 +28,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AssemblyName>RenderTarget2DSample</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test_Win|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Test_Win</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>FourEyes</AssemblyName>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -46,15 +54,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\MacOS\RenderTarget2DSample\Game1.cs">
-      <Link>Game1.cs</Link>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="FPSCounterComponent.cs" />
     <Compile Include="MapLoader.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Game1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

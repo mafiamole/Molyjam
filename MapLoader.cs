@@ -60,7 +60,7 @@ namespace RenderTarget2DSample
                     y += 1;
                 }
             }
-			Map tempMap = new Map(tmp2,largestWidth);
+			Map tempMap = new Map(tmp2,largestWidth * 32);
             return tempMap;
         }
 	
