@@ -162,10 +162,10 @@ namespace RenderTarget2DSample
 			// To prevent the character moving on for ever
 			direction.X = 0;
 			
-			if (kbstate.IsKeyDown(Keys.A)) {
+			if (kbstate.IsKeyDown(Keys.Left)) {
 				direction.X = 1;
 			}
-			if (kbstate.IsKeyDown(Keys.D)) {
+			if (kbstate.IsKeyDown(Keys.Right)) {
 				
 				direction.X = -1;	
 			}
@@ -179,9 +179,14 @@ namespace RenderTarget2DSample
 				speed.X = PlayrBaseSpeed;
 			}
 			
-			if ( ( (level.Position.X < 0) || (level.Position.X > level.Width) ) ) {
+			
+			
+			if ( ( (level.Position.X > 0) || (level.Position.X < level.Width) ) ) {
 					changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 				}
+			else {
+				changeVector = Vector2.Zero;	
+			}
 			
 			level.Update(gameTime,changeVector);
 			bkgnd.Update(gameTime,changeVector);
