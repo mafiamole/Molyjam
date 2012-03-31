@@ -115,7 +115,7 @@ namespace RenderTarget2DSample
 			level = MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
 			Components.Add(fps);
 			
-			//glasses = new GlassesUI(this, spriteBatch);
+			glasses = new GlassesUI(this, spriteBatch);
 			
 		}
 
@@ -171,7 +171,7 @@ namespace RenderTarget2DSample
 				
 				direction.X = -1;	
 			}
-       		/*
+       		
 			if(kbstate.IsKeyDown(Keys.D1)){
                 glasses.SelectGlasses(0);
             }else if(kbstate.IsKeyDown(Keys.D2)){
@@ -181,7 +181,7 @@ namespace RenderTarget2DSample
             }else if(kbstate.IsKeyDown(Keys.D4)){
                 glasses.SelectGlasses(3);
             }			
-			*/
+			
 			if (kbstate.IsKeyDown(Keys.LeftShift))
 			{
 				speed.X = PlayrBaseSpeed * 10;
@@ -194,12 +194,12 @@ namespace RenderTarget2DSample
 							
 			
 			
-			if ( ( (level.Position.X <= 0f) || (level.Position.X >= level.Width) ) ) {
+			//if ( ( (level.Position.X < 0f) || (level.Position.X > level.Width) ) ) {
 					changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-				}
-			else {
-				changeVector = Vector2.Zero;	
-			}
+			//	}
+			//else {
+			//	changeVector = Vector2.Zero;	
+			//}
 			
 			
 			level.Update(gameTime,changeVector);
@@ -213,7 +213,7 @@ namespace RenderTarget2DSample
 		/// This is called when the game should draw itself.
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
-		protected void Draw (GameTime gameTime)
+		protected override void Draw (GameTime gameTime)
 		{
 			
             graphics.GraphicsDevice.Clear(Color.Black);
