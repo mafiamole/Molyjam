@@ -66,6 +66,8 @@
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Work.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Controls.cs" />
+    <Compile Include="Lives.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
