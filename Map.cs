@@ -10,6 +10,7 @@ namespace RenderTarget2DSample
 		private int mapWidth;
 		private Vector2 position;
 		
+		
 		public int Width {
 			get {
 				return mapWidth;	

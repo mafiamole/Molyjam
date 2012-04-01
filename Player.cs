@@ -28,6 +28,15 @@ namespace RenderTarget2DSample
 			}
 		}
 		
+		public Vector2 MapLocation {
+		
+			get {
+			
+				return mapPosition;
+				
+			}
+		}
+		
 		public void Initalise(Game1 game,Texture2D playerTexture,SpriteBatch spriteBatch,Vector2 screenPosition)
 		{
 			this.origin = new Vector2(playerTexture.Width /2,playerTexture.Height / 2);
@@ -41,15 +50,6 @@ namespace RenderTarget2DSample
 			
 			ArrayList subList;
 			
-			foreach (Sprite mapObj in objects)
-			{
-				if (Background.Between(mapObj.mapLocation.X,origin.X -64,origin.X + 64)) {
-					
-					
-					
-				}
-				
-			}
 			
 			if (jump)
 			{

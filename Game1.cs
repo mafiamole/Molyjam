@@ -24,6 +24,7 @@ namespace RenderTarget2DSample
 	{
 		const int PlayrBaseSpeed =  500;
 		
+		
 		SpriteFont 				font;
 		/// <summary>
 		/// The GraphicsDeviceManager is what creates and automagically manages the game's GraphicsDevice.
@@ -234,16 +235,27 @@ namespace RenderTarget2DSample
 				characterJumped = false;	
 			}
 			
-			if ((direction.X == 1) && (level.Position.X >= 0))//(changeVector.X >= 0) &&
-            {
-                changeVector.X = level.Position.X * -1;// 0;
+			Console.Write(player.MapLocation);
+			Console.Write (" - ");
+			Console.WriteLine(level.Position);
+			//if (player.MapLocation.X < (0 - Window.ClientBounds.Width)  || player.MapLocation.X > (level.Width + Window.ClientBounds.Width  ))//(changeVector.X >= 0) &&
+            //{
+				//Console.WriteLine("out of area.");
+                //changeVector.X = level.Position.X * direction.X;// 0;
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-			
+            //}
+			if ( (player.MapLocation.X < (-(level.Width) + (Window.ClientBounds.Width /2)) ) || (player.MapLocation.X  > ( Window.ClientBounds.Width/2) ) ) {
+
+				changeVector = -(direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+			}
+			else {
+
+				changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			}
 			player.Update(gameTime,changeVector,characterJumped,level.objects);
 			
 			level.Update(gameTime,changeVector);
