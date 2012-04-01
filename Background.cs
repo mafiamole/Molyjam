@@ -14,15 +14,17 @@ namespace RenderTarget2DSample
 		public Vector2[] positions;
 		public Rectangle position;
 		private int winWidth;
+		protected Game1 game;
 		
 		public static bool Between(double val,double min, double max)
 		{
   			return ( (val > min) && (val < max) );
 		}
 		
-		public Background ()
+		public Background (Game1 game)
 		{
-	
+			this.game = game;
+			
 		}
 		
 		public void Initialise(Texture2D texture,int winWidth)

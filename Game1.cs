@@ -43,6 +43,8 @@ namespace RenderTarget2DSample
 		
 		FPSCounterComponent 	fps;
 		
+		public int 				collideCount;
+		
 		/// <summary>
 		/// The players current speed.
 		/// </summary>
@@ -110,7 +112,7 @@ namespace RenderTarget2DSample
 		/// </summary>
 		protected override void Initialize ()
 		{
-			bkgnd 		= new Background();
+			bkgnd 		= new Background(this);
 			speed 		= new Vector2(PlayrBaseSpeed,0);
 			direction 	= new Vector2(0,0);	
 			
@@ -132,15 +134,14 @@ namespace RenderTarget2DSample
 			// has no depth buffer or stencil buffer.
 			
 			renderTarget 	= new RenderTarget2D (GraphicsDevice, GraphicsDevice.PresentationParameters.BackBufferWidth,GraphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
-
-
+			
 			
 			font 				= Content.Load<SpriteFont>("spriteFont1");
 			fps 				= new FPSCounterComponent(this,spriteBatch,font);
             TileSheet 			= Content.Load<Texture2D>("tilesheet.png");
 			level 				= MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
 			glasses 			= new GlassesUI(this, spriteBatch);
-			player				= new Player();
+			player				= new Player(this);
 			Vector2 playerPos 	= new Vector2(
 				(this.Window.ClientBounds.Width / 2 ) - 16,
 				(this.Window.ClientBounds.Height / 2) - 32
@@ -186,10 +187,8 @@ namespace RenderTarget2DSample
 		{
 			// Allows the game to exit. If this is a Windows version, I also like to check for an Esc key press. I put
 			// it within an #if WINDOWS .. #endif block since that way it won't run on other platforms.
-			
+			collideCount = 0;
 			bool characterJumped = false;
-			ArrayList PlayerCollisions;
-			
 			
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
 				|| Keyboard.GetState ().IsKeyDown (Keys.Escape)) 
@@ -280,14 +279,17 @@ namespace RenderTarget2DSample
             }
 			
 			
-			bkgnd.Update(gameTime,changeVector);
+
 			
-			PlayerCollisions = new ArrayList();
-			PlayerCollisions.Clear();
-			level.Update(gameTime,changeVector,ref PlayerCollisions);
+			level.Update(gameTime,changeVector);
 			
+			if ((this.collideCount) > 0) {
+				changeVector.X = 0;Console.WriteLine ("BANG ON!");
+			}
 			
-			player.Update(gameTime,changeVector,characterJumped,PlayerCollisions);
+			bkgnd.Update(gameTime,changeVector);			
+			glasses.UpdateMouse(); 
+			player.Update(gameTime,changeVector,characterJumped);
 
 			base.Update (gameTime);
 			

@@ -64,6 +64,8 @@
     <Compile Include="Glasses.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="AnimatedSprite.cs" />
+    <Compile Include="Work.cs" />
+    <Compile Include="Collision.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

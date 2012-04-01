@@ -21,7 +21,9 @@ namespace RenderTarget2DSample
         ArrayList glassesObjects = new ArrayList();
         Texture2D glassesTexture;
         Texture2D star;
-
+		public Rectangle mSelectionBox = new Rectangle(-1, -1, 0, 0);
+        public MouseState mPreviousMouseState = Mouse.GetState();
+		
         GlassesSprite glasses1;
         GlassesSprite glasses2;
         GlassesSprite glasses3;
@@ -42,7 +44,31 @@ namespace RenderTarget2DSample
 
 
         }
+			
+		public void UpdateMouse()
+        {
+            //Get the current state of the Mouse
+            MouseState aMouse = Mouse.GetState();
 
+            //If the user has just clicked the Left mouse button, then set the start location for the Selection box
+            if (aMouse.LeftButton == ButtonState.Released && mPreviousMouseState.LeftButton == ButtonState.Pressed)
+            {
+                //Set the starting location for the selection box to the current location
+                //where the Left button was initially clicked.
+                mSelectionBox = new Rectangle(aMouse.X, aMouse.Y, 1, 1);
+            }
+
+            for(int i = 0; i<glassesObjects.Count;i++)
+                if (mSelectionBox.Intersects(new Rectangle((int)((GlassesSprite)glassesObjects[i]).ObjectPosition.X - 20, (int)((GlassesSprite)glassesObjects[i]).ObjectPosition.Y - 20, 100, 100)))
+                {
+                    SelectGlasses = i;
+                }         
+
+            //Store the previous mouse state
+            mSelectionBox.X = 0; mSelectionBox.Y = 0;
+            mPreviousMouseState = aMouse;
+        }
+		
         public int SelectGlasses { 
             get {
                 return selectedGlasses;
@@ -74,7 +100,7 @@ namespace RenderTarget2DSample
     public class GlassesSprite : RenderTarget2DSample.Sprite
     {
 
-        private GlassesUI.Glasses glasses;
+        public GlassesUI.Glasses glasses;
         private bool thisSelected = false;
         private Texture2D background;
 		

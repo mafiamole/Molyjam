@@ -63,11 +63,9 @@ namespace RenderTarget2DSample
                 isSpriteVisible = value;
             }
         }
-		public void Update(GameTime gameTime,Vector2 changeVector) {
-			bool dummy = false;
-			Update(gameTime,changeVector,ref dummy);
-		}
-        public void Update(GameTime gameTime,Vector2 changeVector,ref bool collision)
+
+        public void Update(GameTime gameTime,Vector2 changeVector
+			)
         {
 
             if (Tile == MapLoader.TileType.Glasses) changeVector.X = 0;
@@ -92,19 +90,21 @@ namespace RenderTarget2DSample
                 case MapLoader.TileType.Ground:
                 case MapLoader.TileType.Rocks:
                     Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
-
+/*
                     Rectangle tmp1 = new Rectangle((int)Position.X , (int)Position.Y, 32,32);
                     Rectangle tmp2 = new Rectangle((int)playerVect.X,(int)playerVect.Y ,32,64);
-
-                    if (tmp1.Intersects(tmp2))
+*/
+                    if (/*tmp1.Intersects(tmp2)*/ 
+						Collision.RectDetection((int)Position.X,(int)Position.Y,32,32, (int)playerVect.X,(int)playerVect.Y,32,64)
+						)
                     {
                         Console.WriteLine("nick");
-						collision = true;
+						((Game1)Game).collideCount += 1;
                     }
                     else
                     {
                         //   Console.WriteLine("none");
-
+					
 
                     }
 

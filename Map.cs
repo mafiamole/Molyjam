@@ -41,17 +41,14 @@ namespace RenderTarget2DSample
 		}
 		
 		
-		public void Update(GameTime gameTime,Vector2 changeVector,ref ArrayList PlayerCollisions)
+		public void Update(GameTime gameTime,Vector2 changeVector)
 		{
 			position += changeVector;
 			foreach (Sprite obj in mapObjDa)
 			{
-				bool collision = false;
-				obj.Update(gameTime,changeVector,ref collision);
-				if (collision) {
-					Console.WriteLine("[cd]");
-					PlayerCollisions.Add(obj);
-				}
+				obj.Update(gameTime,changeVector);
+
+			
 			}
 		}
 		
