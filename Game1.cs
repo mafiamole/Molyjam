@@ -22,8 +22,7 @@ namespace RenderTarget2DSample
 	/// </summary>
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
-		const int PlayrBaseSpeed =  500;
-		
+
 		
 		SpriteFont 				font;
 		/// <summary>
@@ -47,22 +46,6 @@ namespace RenderTarget2DSample
 		
 		Texture2D 				animatedTilesheet;
 		/// <summary>
-		/// The players current speed.
-		/// </summary>
-		Vector2 				speed;// = new Vector2(PLAYASPEED,0);
-		/// <summary>
-		/// The direction the player is traveling
-		/// </summary>
-		Vector2 				direction;// = new Vector2(0,0);
-		/// <summary>
-		/// The change vector is the displacement since the last frame.
-		/// </summary>
-		Vector2 				changeVector;
-		/// <summary>
-		/// The kbstate is used to hold the current keyboard related states each loop
-		/// </summary>
-		KeyboardState 			kbstate;
-		/// <summary>
 		/// The bkgnd is used to update and draw the scrolling background.
 		/// </summary>
 		Background 				bkgnd;
@@ -81,10 +64,10 @@ namespace RenderTarget2DSample
 		/// <summary>
 		/// The glasses class UI is used to indicate which pair of glasses is being drawn.
 		/// </summary>
-		public GlassesUI 				glasses;
+		public GlassesUI 		glasses;
 		
-		bool 					shiftDown;
-
+		public Controls				controls;
+		
 		/// <summary>
 		/// The constructor for our Game1 class.
 		/// </summary>
@@ -98,7 +81,7 @@ namespace RenderTarget2DSample
 #else
 			graphics.PreferredBackBufferWidth = 800;
 			graphics.PreferredBackBufferHeight = 600;
-			graphics.IsFullScreen = true;
+			graphics.IsFullScreen = false;
 #endif
 
 			// Set the root directory of the game's ContentManager to the "Content" folder.
@@ -114,8 +97,6 @@ namespace RenderTarget2DSample
 		protected override void Initialize ()
 		{
 			bkgnd 		= new Background(this);
-			speed 		= new Vector2(PlayrBaseSpeed,0);
-			direction 	= new Vector2(0,0);	
 			
 			base.Initialize ();
 		}
@@ -148,6 +129,8 @@ namespace RenderTarget2DSample
 				(this.Window.ClientBounds.Width / 2 ) - 16,
 				(this.Window.ClientBounds.Height / 2) - 32
 				);
+						this.controls = new Controls(this,glasses);
+
 			
 			player.Initalise(this,animatedTilesheet,spriteBatch,playerPos);
 			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);			
@@ -190,6 +173,7 @@ namespace RenderTarget2DSample
 			// Allows the game to exit. If this is a Windows version, I also like to check for an Esc key press. I put
 			// it within an #if WINDOWS .. #endif block since that way it won't run on other platforms.
 			collideCount = 0;
+			
 			bool characterJumped = false;
 			
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
@@ -197,109 +181,32 @@ namespace RenderTarget2DSample
 			{
 				this.Exit ();
 			}
-
-			// Grab current keyboar state on loop
-			kbstate = Keyboard.GetState();
-			
-			// To prevent the character moving on for ever
-			direction.X = 0;
-			direction.Y = 0;
-			if (kbstate.IsKeyDown(Keys.Left)) {
-				direction.X = 1;
-			}
-			if (kbstate.IsKeyDown(Keys.Right)) {
-				
-				direction.X = -1;	
-			}
-       		
-			if(kbstate.IsKeyDown(Keys.D1)){
-                glasses.SelectGlasses = 0;
-            }else if(kbstate.IsKeyDown(Keys.D2)){
-                glasses.SelectGlasses = 1;
-            }else if(kbstate.IsKeyDown(Keys.D3)){
-                glasses.SelectGlasses = 2;
-            }else if(kbstate.IsKeyDown(Keys.D4)){
-                glasses.SelectGlasses = 3;
-            }			
-			
-			if (kbstate.IsKeyDown(Keys.LeftShift))
-			{
-				speed.X = PlayrBaseSpeed * 10;
-			}
-			if (kbstate.IsKeyUp(Keys.LeftShift)) {
-				speed.X = PlayrBaseSpeed;
-			}
-
-			if (kbstate.IsKeyDown(Keys.Up))
-			{
-				characterJumped = true;
-			}
-			else
-			{
-				characterJumped = false;	
-			}
-			
-			
-			if (kbstate.IsKeyDown(Keys.O))
-			{
-			
-				Console.Clear();
-			}
-			
-
-
-            //changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-			
-			
-/*			
-			if ( (player.MapLocation.X < (-(level.Width) + (Window.ClientBounds.Width /2)) ) || (player.MapLocation.X  > ( Window.ClientBounds.Width/2) ) ) {
-
-				changeVector = -(direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds);
-			}
-			else {
-
-				changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-			}
-*/
-			
-			int calculation1 = (int)level.Position.X - (Window.ClientBounds.Width / 2);
-            int calculation2 = (int)player.MapLocation.X - (Window.ClientBounds.Width / 2);
-         
-            if ((direction.X == 1) && (calculation1 >= 0))//(changeVector.X >= 0) &&
-            {
-                changeVector.X = calculation1 * -1;// 0;//(level.Position.X-(Window.ClientBounds.Width / 2))
-
-            }
-            else if ((calculation2 <= -(level.Width)) && (direction.X == -1)) 
-            {
-                changeVector.X = (level.Width + calculation2) * -1;// calculation;// *-1;// 0;//
-
-            }
-            else
-            {
-                changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-			
 			
 
 			
-			level.Update(gameTime,changeVector);
+			controls.Update(gameTime,level,player);
 			
-			if ((this.collideCount) > 0) {
-				changeVector.X = 0;Console.WriteLine ("BANG ON!");
-			}
+			level.Update(gameTime,controls.changeVector);
 			
-			bkgnd.Update(gameTime,changeVector);			
+			bkgnd.Update(gameTime,controls.changeVector);
 			glasses.UpdateMouse(); 
-			player.Update(gameTime,changeVector,characterJumped);
+			player.Update(gameTime,controls.changeVector,characterJumped);
+
 
 			base.Update (gameTime);
 			
-			changeVector.X = 0; changeVector.Y = 0;
+			controls.ClearChangeVector();
 			
-			if (player.MapLocation.Y > Window.ClientBounds.Height) {
+ 			if (player.MapLocation.Y > Window.ClientBounds.Height) {
 				this.Exit();
-				Console.WriteLine("You fell off the world!");	
+				Console.WriteLine("You fell off the world!");
+			
+			
+
+			
+			
+
+
 			}
 		}
 

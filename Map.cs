@@ -54,8 +54,12 @@ namespace RenderTarget2DSample
                 obj.Collision(gameTime,changeVector);  
 			}
 			
-			if (this.game.collideCount > 0)
+			if (this.game.collideCount > 0) {
+				game.controls.SetChangeVectorX(0);
 				changeVector.X = 0;
+				
+			}
+			
 			// cue other update actions
 			position += changeVector;
 			foreach (Sprite obj in mapObjDa)

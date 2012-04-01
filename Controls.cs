@@ -13,75 +13,134 @@ using Microsoft.Xna.Framework.Media;
 
 namespace RenderTarget2DSample
 {
-    class Controls
-    {
-        public Controls() { }
+	public class Controls
+	{
+		protected const int 	PLAYERBASESPEED = 500;
+		protected 				KeyboardState keyboardState;
+		protected Vector2 		direction;
+		protected Vector2		speed;
+		protected Vector2		changeVect;		
+		protected bool 			characterJumped;
+		protected GlassesUI 	glasses;
+		protected bool 			ShiftDown;
 
-        public void Update(ref Vector2 direction,ref KeyboardState kbstate,ref GlassesUI glasses,ref Vector2 speed, int PlayrBaseSpeed,ref bool characterJumped)
-        {
-            // Grab current keyboar state on loop
-            kbstate = Keyboard.GetState();
+		Game1 					game;
+		
+		public Controls (Game1 game,GlassesUI glasses)
+		{
+			this.game 		= game;
+			this.glasses 	= glasses;
+			speed 			= new Vector2(PLAYERBASESPEED,0);
+			direction 		= new Vector2(0,0);	
+			
+		}
+		
+		public Vector2 changeVector {
+		
+			get {
+				return changeVect;
+			}
+			set {
+				this.changeVect = value;
+			}
+		}
+		
+		// cos I am lazy. 
+		public void SetChangeVectorX (int x)
+		{
+			this.changeVect.X = x;
+		}
+		
+		public void keyboard ()
+		{
+            
+			// Grab current keyboar state on loop
+			this.keyboardState = Keyboard.GetState ();
+			
+			if (keyboardState.IsKeyDown (Keys.Left)) {
+				direction.X = 1;
+			}
+			if (keyboardState.IsKeyDown (Keys.Right)) {
 
-            // To prevent the character moving on for ever
-            direction.X = 0;
-            direction.Y = 0;
-            if (kbstate.IsKeyDown(Keys.Left))
+				direction.X = -1;
+			}
+
+			if (keyboardState.IsKeyDown (Keys.D0)) {
+				Console.Clear ();
+			}
+
+
+
+			if (keyboardState.IsKeyDown (Keys.D1)) {
+				glasses.SelectGlasses = 0;
+			} else if (keyboardState.IsKeyDown (Keys.D2)) {
+				glasses.SelectGlasses = 1;
+			} else if (keyboardState.IsKeyDown (Keys.D3)) {
+				glasses.SelectGlasses = 2;
+			} else if (keyboardState.IsKeyDown (Keys.D4)) {
+				glasses.SelectGlasses = 3;
+			}
+
+			if (keyboardState.IsKeyDown (Keys.LeftShift)) {
+				speed.X = PLAYERBASESPEED * 10;
+			}
+			if (keyboardState.IsKeyUp (Keys.LeftShift)) {
+				speed.X = PLAYERBASESPEED;
+			}
+
+			if (keyboardState.IsKeyDown (Keys.Up)) {
+				characterJumped = true;
+			} else {
+				characterJumped = false;
+			}
+
+			
+
+			
+		}
+
+		public void Update (GameTime gameTime, Map level,Player player)
+		{;
+			
+
+			// To prevent the character moving on for ever
+			direction.X = 0;
+			direction.Y = 0;
+  
+			this.keyboard ();
+			
+			int calc1 = (int)level.Position.X - (game.Window.ClientBounds.Width / 2);
+            int calc2 = (int)player.MapLocation.X - (game.Window.ClientBounds.Width / 2);			
+			
+			if ((game.collideCount) > 0) {
+				changeVect.X = 0;Console.WriteLine ("BANG ON!");
+			}			
+			
+            if ((direction.X == 1) && (calc1 >= 0))//(changeVector.X >= 0) &&
             {
-                direction.X = 1;
+                changeVect.X = calc1 * -1;// 0;//(level.Position.X-(Window.ClientBounds.Width / 2))
             }
-            if (kbstate.IsKeyDown(Keys.Right))
+            else if ((calc2 <= -(level.Width)) && (direction.X == -1)) 
             {
+                changeVect.X = (level.Width + calc2) * -1;// calculation;// *-1;// 0;//
 
-                direction.X = -1;
-            }
-
-            if (kbstate.IsKeyDown(Keys.D0)) { Console.Clear(); }
-
-
-
-            if (kbstate.IsKeyDown(Keys.D1))
-            {
-                glasses.SelectGlasses = 0;
-            }
-            else if (kbstate.IsKeyDown(Keys.D2))
-            {
-                glasses.SelectGlasses = 1;
-            }
-            else if (kbstate.IsKeyDown(Keys.D3))
-            {
-                glasses.SelectGlasses = 2;
-            }
-            else if (kbstate.IsKeyDown(Keys.D4))
-            {
-                glasses.SelectGlasses = 3;
-            }
-
-            if (kbstate.IsKeyDown(Keys.LeftShift))
-            {
-                speed.X = PlayrBaseSpeed * 10;
-            }
-            if (kbstate.IsKeyUp(Keys.LeftShift))
-            {
-                speed.X = PlayrBaseSpeed;
-            }
-
-            if (kbstate.IsKeyDown(Keys.Up))
-            {
-                characterJumped = true;
             }
             else
             {
-                characterJumped = false;
+                changeVect = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
+			
+			Console.WriteLine (changeVect);
+		}
+		
+		
+		public void ClearChangeVector()
+		{
+			this.changeVect = Vector2.Zero;	
+		}
 
 
-
-
-
-        }
-
-
-    }
+	}
 
 
 

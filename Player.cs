@@ -52,28 +52,7 @@ namespace RenderTarget2DSample
 		
 		public void Update (GameTime gameTime, Vector2 changeVector, bool jump)
 		{
-			/*
-			if (objects.Count > 0)
-			{
-			Console.WriteLine("We have impact!");
-				Console.WriteLine(objects.Count);
-				foreach (Sprite tile in objects)
-				{
-					//tile.mapLocation.X;
-					//tile.mapLocation.Y;
-					if (tile.mapLocation.X > this.mapPosition.X || (tile.mapLocation.X + 32) < this.mapPosition.X)
-					{
-						Console.WriteLine("It is in the x directions!");	
-					}
-					if (tile.mapLocation.Y > this.mapPosition.Y || (tile.mapLocation.Y + 32) < this.mapPosition.Y)
-					{
-						Console.WriteLine("it is in the y directions");
-					}
-				}
-					
-			}
-			*/
-			
+		
 
 			if (!(this.game.collideCount > 0 & changeVector.Y < 0)) {
 				if (jumping) {
@@ -92,7 +71,7 @@ namespace RenderTarget2DSample
 							jumping = true;
 						}
 					}					
-					changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.03f; //Gravity
+					//changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.03f; //Gravity
 
 					//}
 				}
