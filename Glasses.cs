@@ -31,11 +31,12 @@ namespace RenderTarget2DSample
         {
 
             glassesTexture = game.Content.Load<Texture2D>("glasses");
+			
             Console.WriteLine(game.Window.ClientBounds.Width + "\t" + game.Window.ClientBounds.Height);
             glassesObjects.Add(glasses1 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(20, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
-            glassesObjects.Add(glasses2 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses1.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
-            glassesObjects.Add(glasses3 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses2.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
-            glassesObjects.Add(glasses4 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses3.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
+            glassesObjects.Add(glasses2 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses1.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.PhysObjects));
+            glassesObjects.Add(glasses3 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses2.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Enemies));
+            glassesObjects.Add(glasses4 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses3.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Items));
 			
             ((GlassesSprite)(glassesObjects[0])).isSelected = true;
 
@@ -49,18 +50,18 @@ namespace RenderTarget2DSample
         }
 
          public enum Glasses{
-            Light,
+			Items,
             Enemies,
+			Light,
             PhysObjects,
-            Items
-        }
+        	}
 		 public void drawGlasses(GameTime gameTime)
-		  {
+		 {
 		   foreach (GlassesSprite i in glassesObjects)
-		            {
+		        {
 		                i.Draw(gameTime);
-		            }
 		        }
+		  }
     }
 
 
