@@ -20,6 +20,8 @@ namespace RenderTarget2DSample
     public class GlassesUI{
         ArrayList glassesObjects = new ArrayList();
         Texture2D glassesTexture;
+        Texture2D star;
+
         GlassesSprite glasses1;
         GlassesSprite glasses2;
         GlassesSprite glasses3;
@@ -29,39 +31,43 @@ namespace RenderTarget2DSample
 
         public GlassesUI(Game game, SpriteBatch spriteBatch)
         {
-
+            star = game.Content.Load<Texture2D>("star");
             glassesTexture = game.Content.Load<Texture2D>("glasses");
-			
-            Console.WriteLine(game.Window.ClientBounds.Width + "\t" + game.Window.ClientBounds.Height);
-            glassesObjects.Add(glasses1 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(20, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
-            glassesObjects.Add(glasses2 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses1.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.PhysObjects));
-            glassesObjects.Add(glasses3 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses2.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Enemies));
-            glassesObjects.Add(glasses4 = new GlassesSprite(game, glassesTexture, spriteBatch, new Vector2(glasses3.ObjectPosition.X + glassesTexture.Width + 60, game.Window.ClientBounds.Height - glassesTexture.Height + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Items));
+            glassesObjects.Add(glasses1 = new GlassesSprite(game, glassesTexture, star, spriteBatch, new Vector2(20, game.Window.ClientBounds.Height - 40 + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Items));
+            glassesObjects.Add(glasses2 = new GlassesSprite(game, glassesTexture, star, spriteBatch, new Vector2(glasses1.ObjectPosition.X + 70 + 60, game.Window.ClientBounds.Height - 40 + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Enemies));
+            glassesObjects.Add(glasses3 = new GlassesSprite(game, glassesTexture, star, spriteBatch, new Vector2(glasses2.ObjectPosition.X + 70 + 60, game.Window.ClientBounds.Height - 40 + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.Light));
+            glassesObjects.Add(glasses4 = new GlassesSprite(game, glassesTexture, star, spriteBatch, new Vector2(glasses3.ObjectPosition.X + 70 + 60, game.Window.ClientBounds.Height - 40 + 50), MapLoader.TileType.Glasses, GlassesUI.Glasses.PhysObjects));
 			
             ((GlassesSprite)(glassesObjects[0])).isSelected = true;
 
 
         }
 
-        public void SelectGlasses(int indexToSetActive){
-            ((GlassesSprite)(glassesObjects[selectedGlasses])).isSelected = false;
-            selectedGlasses = indexToSetActive;
-            ((GlassesSprite)(glassesObjects[selectedGlasses])).isSelected = true;
+        public int SelectGlasses { 
+            get {
+                return selectedGlasses;
+            }
+            set
+            {
+                ((GlassesSprite)(glassesObjects[selectedGlasses])).isSelected = false;
+                selectedGlasses = value;
+                ((GlassesSprite)(glassesObjects[selectedGlasses])).isSelected = true;
+            }
         }
 
          public enum Glasses{
-			Items,
-            Enemies,
-			Light,
-            PhysObjects,
-        	}
+             Items,
+             Enemies,
+             Light,
+             PhysObjects
+        }
 		 public void drawGlasses(GameTime gameTime)
-		 {
+		  {
 		   foreach (GlassesSprite i in glassesObjects)
-		        {
+		            {
 		                i.Draw(gameTime);
+		            }
 		        }
-		  }
     }
 
 
@@ -70,11 +76,13 @@ namespace RenderTarget2DSample
 
         private GlassesUI.Glasses glasses;
         private bool thisSelected = false;
+        private Texture2D background;
 		
-        public GlassesSprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, GlassesUI.Glasses glassesType = GlassesUI.Glasses.Light)
+        public GlassesSprite(Game game, Texture2D tileSheet, Texture2D backgroundHighlight, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, GlassesUI.Glasses glassesType = GlassesUI.Glasses.Light)
             : base(game, tileSheet, Batch, pos, t, false)
             {    
                 glasses = glassesType;
+                background = backgroundHighlight;
             }
 
             public Vector2 ObjectPosition{
@@ -110,17 +118,19 @@ namespace RenderTarget2DSample
 	                if (Tile == MapLoader.TileType.Glasses)
 	                    {
 					
-	                        Texture2D dummyTexture = new Texture2D(new GraphicsDevice(), 1, 1);
-	                        dummyTexture.SetData(new Color[] { Color.White });
+	                       // Texture2D dummyTexture = new Texture2D(new GraphicsDevice(), 1, 1);
+	                       // dummyTexture.SetData(new Color[] { Color.White });
 	
-	                        Rectangle rect = new Rectangle((int)Position.X -20, (int)Position.Y - 20, TileSheet.Width + 40, TileSheet.Height + 40);
+	                        Rectangle rect = new Rectangle((int)Position.X, (int)Position.Y - 20, 70, 40 + 10);
 	
 	                        if (thisSelected)
 	                        {
-	                            spriteBatch.Draw(dummyTexture, rect, Color.Green);
+	                            // spriteBatch.Draw(dummyTexture, rect, Color.Chartreuse);
+                                spriteBatch.Draw(background, rect, Color.White);
 	                        }
 	                        
-	                       spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, TileSheet.Width, TileSheet.Height), Color.White);
+	                       spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, 70, 40), 
+                                            new Rectangle(70*(int)glasses,0,70,40),Color.White);
 	
 	
 	                    }

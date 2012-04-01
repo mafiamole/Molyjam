@@ -78,7 +78,7 @@ namespace RenderTarget2DSample
 		/// <summary>
 		/// The glasses class UI is used to indicate which pair of glasses is being drawn.
 		/// </summary>
-		GlassesUI 				glasses;
+		public GlassesUI 				glasses;
 		
 		bool 					shiftDown;
 
@@ -209,13 +209,13 @@ namespace RenderTarget2DSample
 			}
        		
 			if(kbstate.IsKeyDown(Keys.D1)){
-                glasses.SelectGlasses(0);
+                glasses.SelectGlasses = 0;
             }else if(kbstate.IsKeyDown(Keys.D2)){
-                glasses.SelectGlasses(1);
+                glasses.SelectGlasses = 1;
             }else if(kbstate.IsKeyDown(Keys.D3)){
-                glasses.SelectGlasses(2);
+                glasses.SelectGlasses = 2;
             }else if(kbstate.IsKeyDown(Keys.D4)){
-                glasses.SelectGlasses(3);
+                glasses.SelectGlasses = 3;
             }			
 			
 			if (kbstate.IsKeyDown(Keys.LeftShift))
@@ -301,6 +301,10 @@ namespace RenderTarget2DSample
         {
             return this;
         }
-
+		
+		public Player GetPlayer()
+		{
+			return player;	
+		}
 	}
 }

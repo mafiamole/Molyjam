@@ -11,6 +11,7 @@ namespace RenderTarget2DSample
 		private GlassesUI.Glasses 	currentPair; // grow some.
 		private Vector2 			screenPosition, mapPosition, origin;
 		AnimatedSprite				sprite;
+		Sprite						overlaySprite;
 		bool						direction;
 		
 		
@@ -42,7 +43,7 @@ namespace RenderTarget2DSample
 			this.origin = new Vector2(playerTexture.Width /2,playerTexture.Height / 2);
 			this.screenPosition =screenPosition;
 			this.sprite = new AnimatedSprite(game,playerTexture,spriteBatch,screenPosition,MapLoader.TileType.Player);
-			
+			this.overlaySprite = new Sprite(game,playerTexture,spriteBatch,screenPosition,MapLoader.TileType.Glasses);
 		}
 		
 		public void Update(GameTime gameTime,Vector2 changeVector,bool jump,ArrayList objects)
@@ -69,16 +70,18 @@ namespace RenderTarget2DSample
 			if ( changeVector.X > 0)
 			{
 				sprite.flippedHorizonally = true;
+				overlaySprite.flippedHorizonally = true;
 				direction = true;
 			}
 			else
 			{
 				sprite.flippedHorizonally = false;
+				overlaySprite.flippedHorizonally = false;
 				direction = false;	
 			}
 			
 			sprite.Update(gameTime,changeVector);
-
+			overlaySprite.Update(gameTime,changeVector);
 		}
 		
 		public void Draw(GameTime gameTime,SpriteBatch spriteBatch)	
@@ -104,7 +107,7 @@ namespace RenderTarget2DSample
 			}
 			
 			sprite.Draw(gameTime);
-			
+			overlaySprite.Draw(gameTime);
 		}
 		
 	}
