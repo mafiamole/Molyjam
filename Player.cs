@@ -9,8 +9,9 @@ namespace RenderTarget2DSample
 		
 		private GlassesUI.Glasses 	currentPair; // grow some.
 		private Vector2 			screenPosition, mapPosition, origin;
-		Texture2D 					blarg;
+		AnimatedSprite				sprite;
 		bool						direction;
+		
 		
 		public Player ()
 		{
@@ -22,31 +23,35 @@ namespace RenderTarget2DSample
 			}
 		}
 		
-		public void Initalise(Texture2D playerTexture,Vector2 screenPosition)
+		public void Initalise(Game1 game,Texture2D playerTexture,SpriteBatch spriteBatch,Vector2 screenPosition)
 		{
-			this.blarg = playerTexture;
 			this.origin = new Vector2(playerTexture.Width /2,playerTexture.Height / 2);
 			this.screenPosition =screenPosition;
+			this.sprite = new AnimatedSprite(game,playerTexture,spriteBatch,screenPosition,MapLoader.TileType.Player);
+			
 		}
 		
-		public void Update(GameTime gameTime,Vector2 changeVector)
+		public void Update(GameTime gameTime,Vector2 changeVector,bool jump)
 		{
 			mapPosition += changeVector;
 			if ( changeVector.X > 0)
 			{
+				sprite.flippedHorizonally = true;
 				direction = true;
 			}
 			else
 			{
+				sprite.flippedHorizonally = false;
 				direction = false;	
 			}
+			sprite.Update(gameTime);
 		}
 		
 		public void Draw(GameTime gameTime,SpriteBatch spriteBatch)	
 		{
 			if (direction)
 			{
-
+/*
 			spriteBatch.Draw(
 					blarg,
 					screenPosition,
@@ -56,13 +61,16 @@ namespace RenderTarget2DSample
 					origin,
 					0.0f,
 					SpriteEffects.FlipHorizontally,
-					0f);
-					
+					0.0f);
+					*/
 			}
 			else 
 			{
-			spriteBatch.Draw(blarg,screenPosition,Color.Beige);	
+			//spriteBatch.Draw(blarg,screenPosition,Color.Beige);	
 			}
+			
+			sprite.Draw(gameTime);
+			
 		}
 		
 	}

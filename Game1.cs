@@ -134,17 +134,18 @@ namespace RenderTarget2DSample
 
 
 			
-			font 			= Content.Load<SpriteFont>("spriteFont1");
-			fps 			= new FPSCounterComponent(this,spriteBatch,font);
-            TileSheet 		= Content.Load<Texture2D>("tilesheet.png");
-			level 			= MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
-			glasses 		= new GlassesUI(this, spriteBatch);
-			player			= new Player();
-			Vector2 playerPos = new Vector2(
+			font 				= Content.Load<SpriteFont>("spriteFont1");
+			fps 				= new FPSCounterComponent(this,spriteBatch,font);
+            TileSheet 			= Content.Load<Texture2D>("tilesheet.png");
+			level 				= MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
+			glasses 			= new GlassesUI(this, spriteBatch);
+			player				= new Player();
+			Vector2 playerPos 	= new Vector2(
 				(this.Window.ClientBounds.Width / 2 ) - 16,
 				(this.Window.ClientBounds.Height / 2) - 32
 				);
-			player.Initalise(Content.Load<Texture2D>("Protagonist/standing"),playerPos);
+			
+			player.Initalise(this,Content.Load<Texture2D>("AnimationTiles.png"),spriteBatch,playerPos);
 			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);			
 			
 			Components.Add(fps);
@@ -185,7 +186,7 @@ namespace RenderTarget2DSample
 			// Allows the game to exit. If this is a Windows version, I also like to check for an Esc key press. I put
 			// it within an #if WINDOWS .. #endif block since that way it won't run on other platforms.
 			
-			
+			bool characterJumped = false;
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
 				|| Keyboard.GetState ().IsKeyDown (Keys.Escape)) 
 			{
@@ -224,8 +225,10 @@ namespace RenderTarget2DSample
 				speed.X = PlayrBaseSpeed;
 			}
 
-
-							
+			if (kbstate.IsKeyDown(Keys.Space))
+			{
+				characterJumped = true;
+			}
 			
 			
 			//if ( ( (level.Position.X < 0f) || (level.Position.X > level.Width) ) ) {
@@ -235,7 +238,7 @@ namespace RenderTarget2DSample
 			//	changeVector = Vector2.Zero;	
 			//}
 			
-			player.Update(gameTime,changeVector);
+			player.Update(gameTime,changeVector,false);
 			
 			level.Update(gameTime,changeVector);
 			bkgnd.Update(gameTime,changeVector);
