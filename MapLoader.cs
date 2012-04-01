@@ -18,16 +18,17 @@ namespace RenderTarget2DSample
 			 Spikes,  //^
 			 Key,     //1
 			 Life,    //2
-			 NPC_ground, //@
-			 NPC_Flyer, //*
+			 NPC_ground, //3
+			 NPC_Flyer, //4
 			 Player,   // No Symbol
 			 Glasses // No Symbol
 			}
-        public static Map ReadFile(string filename, Texture2D TileSheet, Game1 game)
+        public static Map ReadFile(string filename, Texture2D TileSheet,Texture2D AnimatedTileSheet, Game1 game)
         {
             Int32 x = 0;
             Int32 y = 0;
 			int largestWidth = 0;
+            ArrayList tmp = new ArrayList();
             ArrayList tmp2 = new ArrayList();
 			
             using (StreamReader sReader = new StreamReader(filename))
@@ -58,7 +59,13 @@ switch (c)
                                 tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Life));
                                 break;
                             case '1':
-                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Key));
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Key));
+                                break;
+                            case '3':
+                                tmp.Add(new AnimatedSprite(game, AnimatedTileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.NPC_ground));
+                                break;
+                            case '4':
+                                tmp.Add(new AnimatedSprite(game, AnimatedTileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.NPC_Flyer));
                                 break;
                             case '\t':
                                 x += 7;
@@ -78,10 +85,13 @@ switch (c)
                     y += 1;
                 }
             }
-			Map tempMap = new Map(tmp2,largestWidth * 32);
+			Map tempMap = new Map(tmp2,tmp,largestWidth * 32);
             return tempMap;
         }
 	
+
+
+
 	}
 }
 

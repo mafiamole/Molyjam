@@ -63,9 +63,22 @@ namespace RenderTarget2DSample
                 isSpriteVisible = value;
             }
         }
+		
+		public void Collision(GameTime gameTime,Vector2 changeVector)
+		{
+                    if (/*tmp1.Intersects(tmp2)*/ 
+						RenderTarget2DSample.Collision.RectDetection(
+							(int)Position.X + changeVector.X,	(int)Position.Y + changeVector.Y,	32,32, 
+							(int)playerVect.X,	(int)playerVect.Y,	32,64)
+						)
+                    {
+				
+			}
+                       
+		
+		}
 
-        public void Update(GameTime gameTime,Vector2 changeVector
-			)
+        public void Update(GameTime gameTime,Vector2 changeVector)
         {
 
             if (Tile == MapLoader.TileType.Glasses) changeVector.X = 0;
@@ -95,7 +108,9 @@ namespace RenderTarget2DSample
                     Rectangle tmp2 = new Rectangle((int)playerVect.X,(int)playerVect.Y ,32,64);
 */
                     if (/*tmp1.Intersects(tmp2)*/ 
-						Collision.RectDetection((int)Position.X,(int)Position.Y,32,32, (int)playerVect.X,(int)playerVect.Y,32,64)
+						RenderTarget2DSample.Collision.RectDetection(
+							(int)Position.X,	(int)Position.Y,	32,32, 
+							(int)playerVect.X,	(int)playerVect.Y,	32,64)
 						)
                     {
                         Console.WriteLine("nick");
@@ -127,8 +142,6 @@ namespace RenderTarget2DSample
 
 
             }
-
-
 
 
         }

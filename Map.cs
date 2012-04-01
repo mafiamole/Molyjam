@@ -7,9 +7,9 @@ namespace RenderTarget2DSample
 	public class Map
 	{
 		private ArrayList mapObjDa;
+        private ArrayList dynObjDa;
 		private int mapWidth;
 		private Vector2 position;
-		
 		
 		public int Width {
 			get {
@@ -33,9 +33,10 @@ namespace RenderTarget2DSample
 			}
 		}
 		
-		public Map (ArrayList objects,int width)
+		public Map (ArrayList objects, ArrayList dynamicObjects,int width)
 		{
 			mapObjDa = objects;
+            dynObjDa = dynamicObjects;
 			mapWidth = width;
 			
 		}
@@ -46,10 +47,12 @@ namespace RenderTarget2DSample
 			position += changeVector;
 			foreach (Sprite obj in mapObjDa)
 			{
-				obj.Update(gameTime,changeVector);
-
-			
+				obj.Update(gameTime,changeVector);                
 			}
+            foreach (AnimatedSprite obj in dynObjDa)
+            {
+                obj.Update(gameTime, changeVector);
+            }
 		}
 		
 		public void Draw(GameTime gameTime)
@@ -58,7 +61,13 @@ namespace RenderTarget2DSample
 			{
 				obj.Draw(gameTime);
 			}
+            foreach (AnimatedSprite obj in dynObjDa)
+            {
+                obj.Draw(gameTime);
+            }
 		}
+
+    
 		
 	}
 }

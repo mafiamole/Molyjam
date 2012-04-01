@@ -45,6 +45,7 @@ namespace RenderTarget2DSample
 		
 		public int 				collideCount;
 		
+		Texture2D 				animatedTilesheet;
 		/// <summary>
 		/// The players current speed.
 		/// </summary>
@@ -135,11 +136,12 @@ namespace RenderTarget2DSample
 			
 			renderTarget 	= new RenderTarget2D (GraphicsDevice, GraphicsDevice.PresentationParameters.BackBufferWidth,GraphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
 			
-			
-			font 				= Content.Load<SpriteFont>("spriteFont1");
-			fps 				= new FPSCounterComponent(this,spriteBatch,font);
             TileSheet 			= Content.Load<Texture2D>("tilesheet.png");
-			level 				= MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
+			font 				= Content.Load<SpriteFont>("spriteFont1");
+			animatedTilesheet 	= Content.Load<Texture2D>("AnimationTiles.png");
+			
+			fps 				= new FPSCounterComponent(this,spriteBatch,font);
+			level 				= MapLoader.ReadFile("./Content/map.txt", TileSheet,animatedTilesheet, this);
 			glasses 			= new GlassesUI(this, spriteBatch);
 			player				= new Player(this);
 			Vector2 playerPos 	= new Vector2(
@@ -147,7 +149,7 @@ namespace RenderTarget2DSample
 				(this.Window.ClientBounds.Height / 2) - 32
 				);
 			
-			player.Initalise(this,Content.Load<Texture2D>("AnimationTiles.png"),spriteBatch,playerPos);
+			player.Initalise(this,animatedTilesheet,spriteBatch,playerPos);
 			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);			
 			
 			Components.Add(fps);
