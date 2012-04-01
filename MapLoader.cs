@@ -85,7 +85,7 @@ switch (c)
                     y += 1;
                 }
             }
-			Map tempMap = new Map(tmp2,tmp,largestWidth * 32);
+			Map tempMap = new Map(tmp2,tmp,largestWidth * 32,game);
             return tempMap;
         }
 	

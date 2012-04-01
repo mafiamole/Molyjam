@@ -66,13 +66,16 @@ namespace RenderTarget2DSample
 		
 		public void Collision(GameTime gameTime,Vector2 changeVector)
 		{
+			Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
+
                     if (/*tmp1.Intersects(tmp2)*/ 
 						RenderTarget2DSample.Collision.RectDetection(
-							(int)Position.X + changeVector.X,	(int)Position.Y + changeVector.Y,	32,32, 
+							(int)(Position.X + changeVector.X),	(int)(Position.Y + changeVector.Y),	32,32, 
 							(int)playerVect.X,	(int)playerVect.Y,	32,64)
 						)
                     {
-				
+					Console.WriteLine("nick");
+					((Game1)Game).collideCount += 1;
 			}
                        
 		
@@ -102,12 +105,13 @@ namespace RenderTarget2DSample
                     break;
                 case MapLoader.TileType.Ground:
                 case MapLoader.TileType.Rocks:
+				/*
                     Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
-/*
+
                     Rectangle tmp1 = new Rectangle((int)Position.X , (int)Position.Y, 32,32);
                     Rectangle tmp2 = new Rectangle((int)playerVect.X,(int)playerVect.Y ,32,64);
-*/
-                    if (/*tmp1.Intersects(tmp2)*/ 
+
+                    if (tmp1.Intersects(tmp2)
 						RenderTarget2DSample.Collision.RectDetection(
 							(int)Position.X,	(int)Position.Y,	32,32, 
 							(int)playerVect.X,	(int)playerVect.Y,	32,64)
@@ -115,6 +119,7 @@ namespace RenderTarget2DSample
                     {
                         Console.WriteLine("nick");
 						((Game1)Game).collideCount += 1;
+	
                     }
                     else
                     {
@@ -122,7 +127,7 @@ namespace RenderTarget2DSample
 					
 
                     }
-
+					*/
                 break;
 
                 case MapLoader.TileType.Life:

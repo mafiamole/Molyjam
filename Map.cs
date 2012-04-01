@@ -10,6 +10,7 @@ namespace RenderTarget2DSample
         private ArrayList dynObjDa;
 		private int mapWidth;
 		private Vector2 position;
+		protected Game1 game;
 		
 		public int Width {
 			get {
@@ -33,17 +34,29 @@ namespace RenderTarget2DSample
 			}
 		}
 		
-		public Map (ArrayList objects, ArrayList dynamicObjects,int width)
+		public Map (ArrayList objects, ArrayList dynamicObjects,int width,Game1 game)
 		{
 			mapObjDa = objects;
             dynObjDa = dynamicObjects;
 			mapWidth = width;
-			
+			this.game = game;
 		}
-		
 		
 		public void Update(GameTime gameTime,Vector2 changeVector)
 		{
+			// Perform collision detection
+			foreach (Sprite obj in mapObjDa)
+			{
+				obj.Collision(gameTime,changeVector);                
+			}
+            foreach (AnimatedSprite obj in dynObjDa)
+            {
+                obj.Collision(gameTime,changeVector);  
+			}
+			
+			if (this.game.collideCount > 0)
+				changeVector.X = 0;
+			// cue other update actions
 			position += changeVector;
 			foreach (Sprite obj in mapObjDa)
 			{
