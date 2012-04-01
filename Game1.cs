@@ -188,6 +188,9 @@ namespace RenderTarget2DSample
 			// it within an #if WINDOWS .. #endif block since that way it won't run on other platforms.
 			
 			bool characterJumped = false;
+			ArrayList PlayerCollisions;
+			
+			
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
 				|| Keyboard.GetState ().IsKeyDown (Keys.Escape)) 
 			{
@@ -235,19 +238,19 @@ namespace RenderTarget2DSample
 				characterJumped = false;	
 			}
 			
-			Console.Write(player.MapLocation);
-			Console.Write (" - ");
-			Console.WriteLine(level.Position);
-			//if (player.MapLocation.X < (0 - Window.ClientBounds.Width)  || player.MapLocation.X > (level.Width + Window.ClientBounds.Width  ))//(changeVector.X >= 0) &&
-            //{
-				//Console.WriteLine("out of area.");
-                //changeVector.X = level.Position.X * direction.X;// 0;
+			
+			if (kbstate.IsKeyDown(Keys.O))
+			{
+			
+				Console.Clear();
+			}
+			
 
-            //}
-            //else
-            //{
-                changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //}
+
+            //changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			
+			
+/*			
 			if ( (player.MapLocation.X < (-(level.Width) + (Window.ClientBounds.Width /2)) ) || (player.MapLocation.X  > ( Window.ClientBounds.Width/2) ) ) {
 
 				changeVector = -(direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -256,13 +259,44 @@ namespace RenderTarget2DSample
 
 				changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 			}
-			player.Update(gameTime,changeVector,characterJumped,level.objects);
+*/
 			
-			level.Update(gameTime,changeVector);
+			int calculation1 = (int)level.Position.X - (Window.ClientBounds.Width / 2);
+            int calculation2 = (int)player.MapLocation.X - (Window.ClientBounds.Width / 2);
+         
+            if ((direction.X == 1) && (calculation1 >= 0))//(changeVector.X >= 0) &&
+            {
+                changeVector.X = calculation1 * -1;// 0;//(level.Position.X-(Window.ClientBounds.Width / 2))
+
+            }
+            else if ((calculation2 <= -(level.Width)) && (direction.X == -1)) 
+            {
+                changeVector.X = (level.Width + calculation2) * -1;// calculation;// *-1;// 0;//
+
+            }
+            else
+            {
+                changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+			
+			
 			bkgnd.Update(gameTime,changeVector);
 			
+			PlayerCollisions = new ArrayList();
+			PlayerCollisions.Clear();
+			level.Update(gameTime,changeVector,ref PlayerCollisions);
+			
+			
+			player.Update(gameTime,changeVector,characterJumped,PlayerCollisions);
+
 			base.Update (gameTime);
+			
 			changeVector.X = 0; changeVector.Y = 0;
+			
+			if (player.MapLocation.Y > Window.ClientBounds.Height) {
+				this.Exit();
+				Console.WriteLine("You fell off the world!");	
+			}
 		}
 
 		/// <summary>

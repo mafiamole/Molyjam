@@ -13,7 +13,9 @@ namespace RenderTarget2DSample
 		AnimatedSprite				sprite;
 		Sprite						overlaySprite;
 		bool						direction;
-		
+		bool						jumping;
+		int							jumpStamp;
+		const int					jumpTime = 35;
 		
 		public Player ()
 		{
@@ -48,21 +50,49 @@ namespace RenderTarget2DSample
 		
 		public void Update(GameTime gameTime,Vector2 changeVector,bool jump,ArrayList objects)
 		{
-			
-			ArrayList subList;
-			
-			
-			if (jump)
+			if (objects.Count > 0)
 			{
-			changeVector.Y -= (float)5;	
-				System.Console.WriteLine(changeVector.Y);
+			Console.WriteLine("We have impact!");
+				Console.WriteLine(objects.Count);
+				foreach (Sprite tile in objects)
+				{
+					//tile.mapLocation.X;
+					//tile.mapLocation.Y;
+					if (tile.mapLocation.X > this.mapPosition.X || (tile.mapLocation.X + 32) < this.mapPosition.X)
+					{
+						Console.WriteLine("It is in the x directions!");	
+					}
+					if (tile.mapLocation.Y > this.mapPosition.Y || (tile.mapLocation.Y + 32) < this.mapPosition.Y)
+					{
+						Console.WriteLine("it is in the y directions");
+					}
+				}
+					
 			}
+			if (jumping)
+			{
+				changeVector.Y -= (float)5;
+				Console.WriteLine("Jumpin");
+				if (gameTime.ElapsedGameTime.Milliseconds > (-jumpStamp + jumpTime )) {
+				jumping = false;
+				Console.WriteLine("END OF JUMP");
+				}
+			}			
+			
 			else {
 			
-				if (mapPosition.Y  < 0) {
-					changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.3f;
+				//if (mapPosition.Y  < 0) {
+					if (jump)
+					{
+						if (!jumping)
+						{
+						jumpStamp = gameTime.ElapsedGameTime.Milliseconds;
+						jumping = true;
+						}
+					}					
+					changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.03f; //Gravity
 
-				}
+				//}
 			}
 
 			mapPosition += changeVector;
@@ -86,26 +116,6 @@ namespace RenderTarget2DSample
 		
 		public void Draw(GameTime gameTime,SpriteBatch spriteBatch)	
 		{
-			if (direction)
-			{
-/*
-			spriteBatch.Draw(
-					blarg,
-					screenPosition,
-					null,
-					Color.Beige,
-					0.0f,
-					origin,
-					0.0f,
-					SpriteEffects.FlipHorizontally,
-					0.0f);
-					*/
-			}
-			else 
-			{
-			//spriteBatch.Draw(blarg,screenPosition,Color.Beige);	
-			}
-			
 			sprite.Draw(gameTime);
 			overlaySprite.Draw(gameTime);
 		}

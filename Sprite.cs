@@ -63,8 +63,11 @@ namespace RenderTarget2DSample
                 isSpriteVisible = value;
             }
         }
-		
-        public void Update(GameTime gameTime,Vector2 changeVector)
+		public void Update(GameTime gameTime,Vector2 changeVector) {
+			bool dummy = false;
+			Update(gameTime,changeVector,ref dummy);
+		}
+        public void Update(GameTime gameTime,Vector2 changeVector,ref bool collision)
         {
 
             if (Tile == MapLoader.TileType.Glasses) changeVector.X = 0;
@@ -96,6 +99,7 @@ namespace RenderTarget2DSample
                     if (tmp1.Intersects(tmp2))
                     {
                         Console.WriteLine("nick");
+						collision = true;
                     }
                     else
                     {
