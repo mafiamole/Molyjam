@@ -198,7 +198,7 @@ namespace RenderTarget2DSample
 			
 			// To prevent the character moving on for ever
 			direction.X = 0;
-			
+			direction.Y = 0;
 			if (kbstate.IsKeyDown(Keys.Left)) {
 				direction.X = 1;
 			}
@@ -225,26 +225,25 @@ namespace RenderTarget2DSample
 				speed.X = PlayrBaseSpeed;
 			}
 
-			if (kbstate.IsKeyDown(Keys.Space))
+			if (kbstate.IsKeyDown(Keys.Up))
 			{
 				characterJumped = true;
 			}
+			else
+			{
+				characterJumped = false;	
+			}
 			
+			changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 			
-			//if ( ( (level.Position.X < 0f) || (level.Position.X > level.Width) ) ) {
-					changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-			//	}
-			//else {
-			//	changeVector = Vector2.Zero;	
-			//}
-			
-			player.Update(gameTime,changeVector,false);
+			player.Update(gameTime,changeVector,characterJumped,level.objects);
 			
 			level.Update(gameTime,changeVector);
 			bkgnd.Update(gameTime,changeVector);
 			
 			base.Update (gameTime);
-		
+			changeVector.X = 0; changeVector.Y = 0;
 		}
 
 		/// <summary>

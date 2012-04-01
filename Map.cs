@@ -36,6 +36,7 @@ namespace RenderTarget2DSample
 		{
 			mapObjDa = objects;
 			mapWidth = width;
+			
 		}
 		
 		

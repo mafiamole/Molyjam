@@ -26,6 +26,14 @@ namespace RenderTarget2DSample
             TileSheet = tileSheet;
 			
         }
+		
+		public Vector2 mapLocation {
+		
+			get {
+				return Position;
+			}
+			
+		}
 	
 		public bool flippedHorizonally
 		{

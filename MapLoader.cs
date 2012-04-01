@@ -37,13 +37,25 @@ namespace RenderTarget2DSample
                     x = 0;
                     foreach (char c in sReader.ReadLine())
                     {
-                        switch (c)
+switch (c)
                         {
                             case '#':
                                 tmp2.Add(new Sprite(game,TileSheet,game.GetSpriteBatch(),new Vector2(x*32, y*32), TileType.Ground));
                                 break;
                             case '$':
                                 tmp2.Add(new Sprite(game,TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Water));
+                                break;
+                            case '&':
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Goo));
+                                break;
+                            case '%':
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Rocks));
+                                break;
+                            case '^':
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Spikes));
+                                break;
+                            case '2':
+                                tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x * 32, y * 32), TileType.Life));
                                 break;
                             case '1':
                                 tmp2.Add(new Sprite(game, TileSheet, game.GetSpriteBatch(), new Vector2(x*32, y*32), TileType.Key));

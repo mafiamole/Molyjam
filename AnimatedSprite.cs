@@ -19,7 +19,7 @@ namespace RenderTarget2DSample
         private int animationSpeed = 100; // Milliseconds before next frame is shown
         int lastFrameTime;
         int yOffset = 0;
-        
+        private bool stopAnimation;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RenderTarget2DSample.AnimatedSprite"/> class.
 		/// </summary>
@@ -46,15 +46,22 @@ namespace RenderTarget2DSample
                 if (t == MapLoader.TileType.NPC_Flyer) yOffset = 160;
 
                 lastFrameTime = System.Environment.TickCount;
+				stopAnimation = false;
             }
 
 
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime,Vector2 changeVector)
         {
-                if (System.Environment.TickCount >= (lastFrameTime + animationSpeed)){
-                    nextFrame();                  
-                }
+	        if (System.Environment.TickCount >= (lastFrameTime + animationSpeed)) {
+	            nextFrame();                  
+	        }
+            if (Tile == MapLoader.TileType.Player)
+			{
+			changeVector.X = 0;	
+			}
+				
+			base.Update(gameTime,changeVector);
         }
 
 
@@ -67,7 +74,7 @@ namespace RenderTarget2DSample
                 
                 //Rectangle rect = new Rectangle((int)Position.X - 20, (int)Position.Y - 20, TileSheet.Width + 40, TileSheet.Height + 40);
                 //spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, TileSheet.Width, TileSheet.Height), Color.White);
-
+				
                 if (Tile == MapLoader.TileType.Player)
                 {
 					SpriteEffects eff;
