@@ -67,11 +67,10 @@ namespace RenderTarget2DSample
 		public void Collision(GameTime gameTime,Vector2 changeVector)
 		{
 			Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
-
                     if (/*tmp1.Intersects(tmp2)*/ 
 						RenderTarget2DSample.Collision.CornerDetection(
 							(int)(Position.X + changeVector.X),	(int)(Position.Y + changeVector.Y),	32,32, 
-							(int)playerVect.X,	(int)playerVect.Y,	32,64)
+							(int)(playerVect.X),	(int)playerVect.Y,	32,64)
 						)
                     {
 					Console.WriteLine("nick");

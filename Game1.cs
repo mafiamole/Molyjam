@@ -129,6 +129,8 @@ namespace RenderTarget2DSample
 				(this.Window.ClientBounds.Width / 2 ) - 16,
 				(this.Window.ClientBounds.Height / 2) - 32
 				);
+			//Vector2 playerPos = new Vector2(0,0);
+				
 						this.controls = new Controls(this,glasses);
 
 			
@@ -187,6 +189,8 @@ namespace RenderTarget2DSample
 			controls.Update(gameTime,level,player);
 			
 			level.Update(gameTime,controls.changeVector);
+			
+			//
 			
 			bkgnd.Update(gameTime,controls.changeVector);
 			glasses.UpdateMouse(); 

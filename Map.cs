@@ -6,8 +6,8 @@ namespace RenderTarget2DSample
 {
 	public class Map
 	{
-		private ArrayList mapObjDa;
-        private ArrayList dynObjDa;
+		private ArrayList staticObject;
+        private ArrayList dynamicObject;
 		private int mapWidth;
 		private Vector2 position;
 		protected Game1 game;
@@ -18,10 +18,18 @@ namespace RenderTarget2DSample
 			}
 		}
 		
-		public ArrayList objects {
+		public ArrayList staticObjects {
 		
 			get {
-				return mapObjDa;
+				return staticObject;
+			}
+			
+		}
+		
+		public ArrayList dynamicObjects {
+		
+			get {
+				return dynamicObject;
 			}
 			
 		}
@@ -36,8 +44,8 @@ namespace RenderTarget2DSample
 		
 		public Map (ArrayList objects, ArrayList dynamicObjects,int width,Game1 game)
 		{
-			mapObjDa = objects;
-            dynObjDa = dynamicObjects;
+			staticObject = objects;
+            dynamicObject = dynamicObjects;
 			mapWidth = width;
 			this.game = game;
 		}
@@ -45,11 +53,11 @@ namespace RenderTarget2DSample
 		public void Update(GameTime gameTime,Vector2 changeVector)
 		{
 			// Perform collision detection
-			foreach (Sprite obj in mapObjDa)
+			foreach (Sprite obj in staticObject)
 			{
 				obj.Collision(gameTime,changeVector);                
 			}
-            foreach (AnimatedSprite obj in dynObjDa)
+            foreach (AnimatedSprite obj in dynamicObjects)
             {
                 obj.Collision(gameTime,changeVector);  
 			}
@@ -62,11 +70,11 @@ namespace RenderTarget2DSample
 			
 			// cue other update actions
 			position += changeVector;
-			foreach (Sprite obj in mapObjDa)
+			foreach (Sprite obj in staticObject)
 			{
 				obj.Update(gameTime,changeVector);                
 			}
-            foreach (AnimatedSprite obj in dynObjDa)
+            foreach (AnimatedSprite obj in dynamicObjects)
             {
                 obj.Update(gameTime, changeVector);
             }
@@ -74,11 +82,11 @@ namespace RenderTarget2DSample
 		
 		public void Draw(GameTime gameTime)
 		{
-			foreach (Sprite obj in mapObjDa)
+			foreach (Sprite obj in staticObject)
 			{
 				obj.Draw(gameTime);
 			}
-            foreach (AnimatedSprite obj in dynObjDa)
+            foreach (AnimatedSprite obj in dynamicObjects)
             {
                 obj.Draw(gameTime);
             }

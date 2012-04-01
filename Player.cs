@@ -29,7 +29,7 @@ namespace RenderTarget2DSample
 		
 		public Vector2 Position {
 			get {
-				return screenPosition;	
+				return sprite.GetPosition; // SetPosition is wanged	
 			}
 		}
 		
@@ -40,6 +40,16 @@ namespace RenderTarget2DSample
 				return mapPosition;
 				
 			}
+		}
+		
+		public Vector2 Offset {
+		
+			get {
+				
+				return screenPosition;
+				
+			}
+			
 		}
 		
 		public void Initalise (Game1 game, Texture2D playerTexture, SpriteBatch spriteBatch, Vector2 screenPosition)

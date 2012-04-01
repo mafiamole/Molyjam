@@ -113,6 +113,6 @@ namespace RenderTarget2DSample
 			lastFrameTime = System.Environment.TickCount;
 		}
 
-
+		public Vector2 GetPosition { get { return base.Position;}}
 	}
 }
