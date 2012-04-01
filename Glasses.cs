@@ -69,7 +69,6 @@ namespace RenderTarget2DSample
 
         private GlassesUI.Glasses glasses;
         private bool thisSelected = false;
-		protected bool isSpriteVisible = true;
 		
         public GlassesSprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, GlassesUI.Glasses glassesType = GlassesUI.Glasses.Light)
             : base(game, tileSheet, Batch, pos, t, false)
@@ -106,25 +105,25 @@ namespace RenderTarget2DSample
             public virtual void Draw(GameTime gameTime)
             {
 			
-			
-                if (Tile == MapLoader.TileType.Glasses)
-                    {
-				
-                        Texture2D dummyTexture = new Texture2D(new GraphicsDevice(), 1, 1);
-                        dummyTexture.SetData(new Color[] { Color.White });
-
-                        Rectangle rect = new Rectangle((int)Position.X -20, (int)Position.Y - 20, TileSheet.Width + 40, TileSheet.Height + 40);
-
-                        if (thisSelected)
-                        {
-                            spriteBatch.Draw(dummyTexture, rect, Color.Green);
-                        }
-                        
-                       spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, TileSheet.Width, TileSheet.Height), Color.White);
-
-
-                    }      
-                
+				if (isVisible) {
+	                if (Tile == MapLoader.TileType.Glasses)
+	                    {
+					
+	                        Texture2D dummyTexture = new Texture2D(new GraphicsDevice(), 1, 1);
+	                        dummyTexture.SetData(new Color[] { Color.White });
+	
+	                        Rectangle rect = new Rectangle((int)Position.X -20, (int)Position.Y - 20, TileSheet.Width + 40, TileSheet.Height + 40);
+	
+	                        if (thisSelected)
+	                        {
+	                            spriteBatch.Draw(dummyTexture, rect, Color.Green);
+	                        }
+	                        
+	                       spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, TileSheet.Width, TileSheet.Height), Color.White);
+	
+	
+	                    }
+				}
              
                 
             }

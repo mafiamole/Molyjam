@@ -13,7 +13,7 @@ namespace RenderTarget2DSample
             protected SpriteBatch 		spriteBatch;
             protected bool 				isDynamic; 
             protected Texture2D		 	TileSheet;
-			protected bool 				isSpriteVisible;
+			protected bool 				isSpriteVisible = true;
 		
             public Sprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, bool dynamicObject = false) :
 			base(game)
@@ -44,16 +44,18 @@ namespace RenderTarget2DSample
 
             public void Draw(GameTime gameTime)
             {
-                if(isDynamic) { // Is player or enemy
-
-
-                }else{ // Is normal tile
-                    //spriteBatch.Draw(TileSheet, new Rectangle(0, 0, TileSheet.Width, TileSheet.Height), Color.White);
-                   spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, 32, 32),
-                                      new Rectangle(32*(int)Tile, 0, 32, 32), Color.White);
-
-                }
-                
+				if (isVisible) {
+				
+	                if(isDynamic) { // Is player or enemy
+	
+	
+	                }else{ // Is normal tile
+	                    //spriteBatch.Draw(TileSheet, new Rectangle(0, 0, TileSheet.Width, TileSheet.Height), Color.White);
+	                   spriteBatch.Draw(TileSheet, new Rectangle((int)Position.X, (int)Position.Y, 32, 32),
+	                                      new Rectangle(32*(int)Tile, 0, 32, 32), Color.White);
+	
+	                }
+				}
              
                 
             }

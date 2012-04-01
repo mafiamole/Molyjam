@@ -40,7 +40,7 @@ namespace RenderTarget2DSample
         {
             frameCounter++;
 
-            string fps = string.Format("fps: {0} hemp : {1}", frameRate, GC.GetTotalMemory(false) / (1024));
+            string fps = string.Format("fps: {0} Mem : {1}", frameRate, GC.GetTotalMemory(false) / (1024));
 
             spriteBatch.DrawString(spriteFont, fps, new Vector2(1, 1), Color.Black);
             spriteBatch.DrawString(spriteFont, fps, new Vector2(0, 0), Color.White);

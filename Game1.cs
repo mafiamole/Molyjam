@@ -23,34 +23,63 @@ namespace RenderTarget2DSample
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
 		const int PlayrBaseSpeed =  500;
-		SpriteFont font;
+		
+		SpriteFont 				font;
 		/// <summary>
 		/// The GraphicsDeviceManager is what creates and automagically manages the game's GraphicsDevice.
 		/// </summary>
-		GraphicsDeviceManager graphics;
+		GraphicsDeviceManager 	graphics;
 
 		/// <summary>
 		/// We use SpriteBatch to draw all of our 2D graphics.
 		/// </summary>
-		SpriteBatch spriteBatch;
+		SpriteBatch 			spriteBatch;
 
 		/// <summary>
 		/// This is the rendertarget we'll be drawing to.
 		/// </summary>
-		RenderTarget2D renderTarget;
+		RenderTarget2D 			renderTarget;
 		
-		FPSCounterComponent fps;
-		Vector2 speed;// = new Vector2(PLAYASPEED,0);
-		Vector2 direction;// = new Vector2(0,0);
-		Vector2 changeVector;
+		FPSCounterComponent 	fps;
 		
-		KeyboardState kbstate;
-		Background bkgnd;
+		/// <summary>
+		/// The players current speed.
+		/// </summary>
+		Vector2 				speed;// = new Vector2(PLAYASPEED,0);
+		/// <summary>
+		/// The direction the player is traveling
+		/// </summary>
+		Vector2 				direction;// = new Vector2(0,0);
+		/// <summary>
+		/// The change vector is the displacement since the last frame.
+		/// </summary>
+		Vector2 				changeVector;
+		/// <summary>
+		/// The kbstate is used to hold the current keyboard related states each loop
+		/// </summary>
+		KeyboardState 			kbstate;
+		/// <summary>
+		/// The bkgnd is used to update and draw the scrolling background.
+		/// </summary>
+		Background 				bkgnd;
+		/// <summary>
+		/// The level object contains a arraylist of a map's object and its size
+		/// </summary>
+		Map 					level;
+		/// <summary>
+		/// The player class is responcable for containing the current state of the player.
+		/// </summary>
+		Player					player;
+		/// <summary>
+		/// The tile sheet.
+		/// </summary>
+        Texture2D 				TileSheet;
+		/// <summary>
+		/// The glasses class UI is used to indicate which pair of glasses is being drawn.
+		/// </summary>
+		GlassesUI 				glasses;
 		
-		Map level;
-        Texture2D TileSheet;
-		GlassesUI glasses;
-		bool shiftDown;
+		bool 					shiftDown;
 
 		/// <summary>
 		/// The constructor for our Game1 class.
@@ -80,12 +109,11 @@ namespace RenderTarget2DSample
 		/// </summary>
 		protected override void Initialize ()
 		{
-			// We don't have anything to initialize.
-			bkgnd = new Background();
+			bkgnd 		= new Background();
+			speed 		= new Vector2(PlayrBaseSpeed,0);
+			direction 	= new Vector2(0,0);	
+			
 			base.Initialize ();
-			speed = new Vector2(PlayrBaseSpeed,0);
-			direction = new Vector2(0,0);			
-
 		}
 
 		/// <summary>
@@ -96,26 +124,32 @@ namespace RenderTarget2DSample
 		{           
 			
 			// Create a new SpriteBatch, which can be used to draw textures.
-			spriteBatch = new SpriteBatch (GraphicsDevice);
+			spriteBatch 	= new SpriteBatch (GraphicsDevice);
 
 			// Create a rendertarget that matches the back buffer's dimensions, does not generate mipmaps automatically
 			// (the Reach profile requires power of 2 sizing in order to do that), uses an RGBA color format, and
 			// has no depth buffer or stencil buffer.
 			
-			renderTarget = new RenderTarget2D (GraphicsDevice, GraphicsDevice.PresentationParameters.BackBufferWidth,
-				GraphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
+			renderTarget 	= new RenderTarget2D (GraphicsDevice, GraphicsDevice.PresentationParameters.BackBufferWidth,GraphicsDevice.PresentationParameters.BackBufferHeight, false, SurfaceFormat.Color, DepthFormat.None);
 
-			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);
+
 			
-			font = Content.Load<SpriteFont>("spriteFont1");
+			font 			= Content.Load<SpriteFont>("spriteFont1");
+			fps 			= new FPSCounterComponent(this,spriteBatch,font);
+            TileSheet 		= Content.Load<Texture2D>("tilesheet.png");
+			level 			= MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
+			glasses 		= new GlassesUI(this, spriteBatch);
+			player			= new Player();
+			Vector2 playerPos = new Vector2(
+				(this.Window.ClientBounds.Width / 2 ) - 16,
+				(this.Window.ClientBounds.Height / 2) - 32
+				);
+			player.Initalise(Content.Load<Texture2D>("Protagonist/standing"),playerPos);
+			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);			
 			
-			fps = new FPSCounterComponent(this,spriteBatch,font);
-            TileSheet = Content.Load<Texture2D>("tilesheet.png");
-			
-			level = MapLoader.ReadFile("./Content/map.txt", TileSheet, this);
 			Components.Add(fps);
 			
-			glasses = new GlassesUI(this, spriteBatch);
+
 
 		}
 
@@ -201,6 +235,7 @@ namespace RenderTarget2DSample
 			//	changeVector = Vector2.Zero;	
 			//}
 			
+			player.Update(gameTime,changeVector);
 			
 			level.Update(gameTime,changeVector);
 			bkgnd.Update(gameTime,changeVector);
@@ -223,6 +258,7 @@ namespace RenderTarget2DSample
 				bkgnd.Draw(gameTime,spriteBatch);
 				level.Draw(gameTime);
 				glasses.drawGlasses(gameTime);
+				player.Draw(gameTime,spriteBatch);
 				base.Draw (gameTime);
 			spriteBatch.End();
 			
