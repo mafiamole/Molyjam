@@ -98,7 +98,7 @@ namespace RenderTarget2DSample
 #else
 			graphics.PreferredBackBufferWidth = 800;
 			graphics.PreferredBackBufferHeight = 600;
-			graphics.IsFullScreen = false;
+			graphics.IsFullScreen = true;
 #endif
 
 			// Set the root directory of the game's ContentManager to the "Content" folder.
