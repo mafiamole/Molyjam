@@ -234,8 +234,15 @@ namespace RenderTarget2DSample
 				characterJumped = false;	
 			}
 			
-			changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			if ((direction.X == 1) && (level.Position.X >= 0))//(changeVector.X >= 0) &&
+            {
+                changeVector.X = level.Position.X * -1;// 0;
 
+            }
+            else
+            {
+                changeVector = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
 			
 			player.Update(gameTime,changeVector,characterJumped,level.objects);
 			
