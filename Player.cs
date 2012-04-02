@@ -113,7 +113,7 @@ namespace RenderTarget2DSample
 		/// </param>
 		public void Update (GameTime gameTime, Vector2 changeVector, bool jump)
 		{
-		
+		/*
 			if (!(this.game.collideCount > 0 & changeVector.Y < 0)) {
 				/*
 				if (jumping) {
@@ -141,12 +141,12 @@ namespace RenderTarget2DSample
 
 					 //Gravity
 				}
-				*/
+
 			}
 			else {
 				//changeVector.Y = 0;
 			}
-				 
+			*/
 			mapPosition += changeVector;
 
 			if (changeVector.X > 0) {

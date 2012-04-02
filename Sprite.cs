@@ -64,21 +64,40 @@ namespace RenderTarget2DSample
             }
         }
 		
-		public void Collision(GameTime gameTime,Vector2 changeVector)
-		{
-			Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
-                    if (/*tmp1.Intersects(tmp2)*/ 
-						RenderTarget2DSample.Collision.CornerDetection(
-							(int)(Position.X + changeVector.X),	(int)(Position.Y + changeVector.Y),	32,32, 
-							(int)(playerVect.X + 5),	(int)(playerVect.Y +2),	32,64)
-						)
+ public void Collision(GameTime gameTime,Vector2 changeVector)
+  {
+   Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
+                    if (RenderTarget2DSample.Collision.CornerDetection(
+       (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32,32, 
+       (int)playerVect.X + 5, (int)playerVect.Y +2, 22,60)
+      )
                     {
-					Console.WriteLine("nick");
-					((Game1)Game).collideCount += 1;
-			}
+
+                        // Collision
+                        if (//tmp1.Intersects(tmp2)
+                     RenderTarget2DSample.Collision.CornerDetection(
+                         (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+                         (int)playerVect.X + 12, (int)playerVect.Y + 55, 8, 3)
+                     )
+                        {   // Collision of floor - standing on something
+
+      }
+                        else
+                        {
+               
+                        }
+
+
+
+
+
+     Console.WriteLine("nick");
+     ((Game1)Game).collideCount += 1;
+   }
                        
-		
-		}
+  
+  }		
+
 
         public void Update(GameTime gameTime,Vector2 changeVector)
         {

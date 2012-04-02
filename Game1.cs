@@ -204,12 +204,6 @@ namespace RenderTarget2DSample
  			if (player.MapLocation.Y > Window.ClientBounds.Height) {
 				this.Exit();
 				Console.WriteLine("You fell off the world!");
-			
-			
-
-			
-			
-
 
 			}
 		}
