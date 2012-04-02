@@ -50,7 +50,11 @@ namespace RenderTarget2DSample
 		{
 			this.changeVect.X = x;
 		}
-		
+		public void SetChangeVectorY (int x)
+		{
+			this.changeVect.Y = x;
+		}		
+
 		public void keyboard ()
 		{
             
@@ -65,6 +69,14 @@ namespace RenderTarget2DSample
 				direction.X = -1;
 			}
 
+			if (keyboardState.IsKeyDown (Keys.Up)) {
+				direction.Y = 1;
+			}
+			if (keyboardState.IsKeyDown (Keys.Down) ){
+				direction.Y = -1;
+			}
+			
+			
 			if (keyboardState.IsKeyDown (Keys.D0)) {
 				Console.Clear ();
 			}
@@ -83,24 +95,19 @@ namespace RenderTarget2DSample
 
 			if (keyboardState.IsKeyDown (Keys.LeftShift)) {
 				speed.X = PLAYERBASESPEED * 10;
+				speed.Y = PLAYERBASESPEED * 10;
+
+				
 			}
 			if (keyboardState.IsKeyUp (Keys.LeftShift)) {
 				speed.X = PLAYERBASESPEED;
+				speed.Y = PLAYERBASESPEED;
 			}
 
-			if (keyboardState.IsKeyDown (Keys.Up)) {
-				characterJumped = true;
-			} else {
-				characterJumped = false;
-			}
-
-			
-
-			
 		}
 
 		public void Update (GameTime gameTime, Map level,Player player)
-		{;
+		{
 			
 
 			// To prevent the character moving on for ever
@@ -113,24 +120,28 @@ namespace RenderTarget2DSample
             int calc2 = (int)player.MapLocation.X - (game.Window.ClientBounds.Width / 2);			
 			
 			if ((game.collideCount) > 0) {
-				changeVect.X = 0;Console.WriteLine ("BANG ON!");
+				changeVect.X = 0;
+				changeVect.Y = 0;
 			}			
 			
             if ((direction.X == 1) && (calc1 >= 0))//(changeVector.X >= 0) &&
             {
                 changeVect.X = calc1 * -1;// 0;//(level.Position.X-(Window.ClientBounds.Width / 2))
+				changeVect.Y = direction.Y * speed.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             }
             else if ((calc2 <= -(level.Width)) && (direction.X == -1)) 
             {
                 changeVect.X = (level.Width + calc2) * -1;// calculation;// *-1;// 0;//
+				changeVect.Y = direction.Y * speed.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             }
             else
             {
                 changeVect = direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             }
-			
-			Console.WriteLine (changeVect);
+
 		}
 		
 		
@@ -139,7 +150,7 @@ namespace RenderTarget2DSample
 			this.changeVect = Vector2.Zero;	
 		}
 
-
+		
 	}
 
 

@@ -17,6 +17,12 @@ namespace RenderTarget2DSample
 		const int					jumpTime = 35;
 		Game1						game; // reference to the game.
 		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RenderTarget2DSample.Player"/> class.
+		/// </summary>
+		/// <param name='game'>
+		/// Game.
+		/// </param>
 		public Player (Game1 game)
 		{
 			this.game = game;
@@ -27,12 +33,24 @@ namespace RenderTarget2DSample
 			direction = 0;
 		}
 		
+		/// <summary>
+		/// Gets the position.
+		/// </summary>
+		/// <value>
+		/// The position.
+		/// </value>
 		public Vector2 Position {
 			get {
 				return sprite.GetPosition; // SetPosition is wanged	
 			}
 		}
 		
+		/// <summary>
+		/// Gets the map location.
+		/// </summary>
+		/// <value>
+		/// The map location.
+		/// </value>
 		public Vector2 MapLocation {
 		
 			get {
@@ -42,6 +60,12 @@ namespace RenderTarget2DSample
 			}
 		}
 		
+		/// <summary>
+		/// Gets the offset.
+		/// </summary>
+		/// <value>
+		/// The offset.
+		/// </value>
 		public Vector2 Offset {
 		
 			get {
@@ -52,6 +76,21 @@ namespace RenderTarget2DSample
 			
 		}
 		
+		/// <summary>
+		/// Initalise the specified game, playerTexture, spriteBatch and screenPosition.
+		/// </summary>
+		/// <param name='game'>
+		/// Game.
+		/// </param>
+		/// <param name='playerTexture'>
+		/// Player texture.
+		/// </param>
+		/// <param name='spriteBatch'>
+		/// Sprite batch.
+		/// </param>
+		/// <param name='screenPosition'>
+		/// Screen position.
+		/// </param>
 		public void Initalise (Game1 game, Texture2D playerTexture, SpriteBatch spriteBatch, Vector2 screenPosition)
 		{
 			this.origin = new Vector2 (playerTexture.Width / 2, playerTexture.Height / 2);
@@ -60,33 +99,54 @@ namespace RenderTarget2DSample
 			this.overlaySprite = new Sprite (game, playerTexture, spriteBatch, screenPosition, MapLoader.TileType.Glasses);
 		}
 		
+		/// <summary>
+		/// Update the specified gameTime, changeVector and jump.
+		/// </summary>
+		/// <param name='gameTime'>
+		/// Game time.
+		/// </param>
+		/// <param name='changeVector'>
+		/// Change vector.
+		/// </param>
+		/// <param name='jump'>
+		/// Jump.
+		/// </param>
 		public void Update (GameTime gameTime, Vector2 changeVector, bool jump)
 		{
 		
-
 			if (!(this.game.collideCount > 0 & changeVector.Y < 0)) {
+				/*
 				if (jumping) {
 					changeVector.Y -= (float)5;
 					Console.WriteLine ("Jumpin");
 					if (gameTime.ElapsedGameTime.Milliseconds > (-jumpStamp + jumpTime)) {
 						jumping = false;
-						Console.WriteLine ("END OF JUMP");
 					}
 				} else {
 			
-					//if (mapPosition.Y  < 0) {
+
 					if (jump) {
 						if (!jumping) {
 							jumpStamp = gameTime.ElapsedGameTime.Milliseconds;
 							jumping = true;
 						}
-					}					
-					//changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.03f; //Gravity
+					}
+					Console.WriteLine(game.collideCount);
+					if (game.collideCount < 0 && changeVector.Y  > 0) {
+						changeVector.Y = 0;
+					}
+					else {
+						//changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.10f;
+					}
 
-					//}
+					 //Gravity
 				}
+				*/
 			}
-
+			else {
+				//changeVector.Y = 0;
+			}
+				 
 			mapPosition += changeVector;
 
 			if (changeVector.X > 0) {
@@ -104,6 +164,15 @@ namespace RenderTarget2DSample
 			overlaySprite.Update (gameTime, changeVector);
 		}
 		
+		/// <summary>
+		/// Draw the specified gameTime and spriteBatch.
+		/// </summary>
+		/// <param name='gameTime'>
+		/// Game time.
+		/// </param>
+		/// <param name='spriteBatch'>
+		/// Sprite batch.
+		/// </param>
 		public void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
 			sprite.Draw (gameTime);

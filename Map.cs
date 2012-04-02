@@ -52,6 +52,7 @@ namespace RenderTarget2DSample
 		
 		public void Update(GameTime gameTime,Vector2 changeVector)
 		{
+			changeVector.Y = 0; // hard set changeVector to 0 to stop background from moving.
 			// Perform collision detection
 			foreach (Sprite obj in staticObject)
 			{
@@ -64,8 +65,10 @@ namespace RenderTarget2DSample
 			
 			if (this.game.collideCount > 0) {
 				game.controls.SetChangeVectorX(0);
+				//if (changeVector.Y > 0)
+				//	game.controls.SetChangeVectorY(0);
+					
 				changeVector.X = 0;
-				
 			}
 			
 			// cue other update actions

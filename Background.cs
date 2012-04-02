@@ -53,7 +53,7 @@ namespace RenderTarget2DSample
 		
 		public void Update(GameTime gametime,Vector2 changeVector)
 		{
-
+			changeVector.Y = 0; // hard set changeVector to 0 to stop background from moving.
 			for (int itr = 0; itr < positions.Length; itr++)
 			{
 				positions[itr] += changeVector;

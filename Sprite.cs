@@ -70,7 +70,7 @@ namespace RenderTarget2DSample
                     if (/*tmp1.Intersects(tmp2)*/ 
 						RenderTarget2DSample.Collision.CornerDetection(
 							(int)(Position.X + changeVector.X),	(int)(Position.Y + changeVector.Y),	32,32, 
-							(int)(playerVect.X),	(int)playerVect.Y,	32,64)
+							(int)(playerVect.X + 5),	(int)(playerVect.Y +2),	32,64)
 						)
                     {
 					Console.WriteLine("nick");
