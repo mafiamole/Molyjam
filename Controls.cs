@@ -57,23 +57,24 @@ namespace RenderTarget2DSample
 
 		public void keyboard ()
 		{
-            
+            direction.X = 0;
+
 			// Grab current keyboar state on loop
 			this.keyboardState = Keyboard.GetState ();
 			
 			if (keyboardState.IsKeyDown (Keys.Left)) {
-				direction.X = 1;
+				direction.X += 1;
 			}
 			if (keyboardState.IsKeyDown (Keys.Right)) {
 
-				direction.X = -1;
+				direction.X += -1;
 			}
 
 			if (keyboardState.IsKeyDown (Keys.Up)) {
-				direction.Y = -1;
+				direction.Y += -1;
 			}
 			if (keyboardState.IsKeyDown (Keys.Down) ){
-				direction.Y = 1;
+				direction.Y += 1;
 			}
 			
 			

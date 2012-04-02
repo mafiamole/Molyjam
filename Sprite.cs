@@ -80,8 +80,8 @@ namespace RenderTarget2DSample
                          (int)playerVect.X + 12, (int)playerVect.Y + 55, 8, 3)
                      )
                         {   // Collision of floor - standing on something
-
-      }
+                            changeVector.Y = 0;
+                        }
                         else
                         {
                
