@@ -70,10 +70,10 @@ namespace RenderTarget2DSample
 			}
 
 			if (keyboardState.IsKeyDown (Keys.Up)) {
-				direction.Y = 1;
+				direction.Y = -1;
 			}
 			if (keyboardState.IsKeyDown (Keys.Down) ){
-				direction.Y = -1;
+				direction.Y = 1;
 			}
 			
 			

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,10 +39,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Lidgren.Network">
-      <HintPath>..\..\..\..\Dev\MonoGame\MonoGame\MonoGame.Framework\bin\Debug\Lidgren.Network.dll</HintPath>
+    <Reference Include="MonoGame.Framework.Windows">
+      <HintPath>..\pull 4\mafiamole-Molyjam-cdc2dd8\bin\Debug\MonoGame.Framework.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="MonoGame.Framework.Linux">
       <HintPath>..\..\..\..\Dev\MonoGame\MonoGame\MonoGame.Framework\bin\Debug\MonoGame.Framework.Linux.dll</HintPath>
     </Reference>
@@ -50,7 +50,7 @@
       <HintPath>..\..\..\..\Dev\opentk\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="Tao.Sdl">
-      <HintPath>..\..\..\..\Dev\MonoGame\MonoGame\MonoGame.Framework\bin\Debug\Tao.Sdl.dll</HintPath>
+      <HintPath>..\pull 4\mafiamole-Molyjam-cdc2dd8\bin\Debug\Tao.Sdl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +69,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="Lives.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\Background1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
