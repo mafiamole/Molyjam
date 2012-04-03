@@ -16,6 +16,7 @@ namespace RenderTarget2DSample
 		protected bool 				isSpriteVisible = true;
 		protected bool				imageFlippedHorizontally;
 		protected bool				imageFlippedVertically;
+        protected Game1 theGame;
 	
         public Sprite(Game game, Texture2D tileSheet, SpriteBatch Batch, Vector2 pos, MapLoader.TileType t, bool dynamicObject = false) :
 		base(game)
@@ -24,7 +25,7 @@ namespace RenderTarget2DSample
             Tile = t;
             spriteBatch = Batch;
             TileSheet = tileSheet;
-			
+			theGame = (Game1)game;
         }
 		
 		public Vector2 mapLocation {
@@ -64,37 +65,78 @@ namespace RenderTarget2DSample
             }
         }
 		
- public void Collision(GameTime gameTime,Vector2 changeVector)
+ public void Collision(GameTime gameTime,Vector2 changeVector, Game1 game)
   {
    Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
-                    if (RenderTarget2DSample.Collision.CornerDetection(
-       (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32,32, 
-       (int)playerVect.X + 5, (int)playerVect.Y +2, 22,60)
-      )
-                    {
+   if (RenderTarget2DSample.Collision.CornerDetection(
+        (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+        (int)playerVect.X + 5 , (int)playerVect.Y + 2, 22, 60))
+   {
 
-                        // Collision
-                        if (//tmp1.Intersects(tmp2)
-                     RenderTarget2DSample.Collision.CornerDetection(
-                         (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
-                         (int)playerVect.X + 12, (int)playerVect.Y + 55, 8, 3)
-                     )
-                        {   // Collision of floor - standing on something
-                            changeVector.Y = 0;
-                        }
-                        else
-                        {
-               
-                        }
+       // ----------------------------------------------------------------------------------
+       //         Detect for going down
 
+       if (RenderTarget2DSample.Collision.CornerDetection(
+                (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+                (int)(playerVect.X + 12), (int)(playerVect.Y + 55), 8, 3))
+    
+       {   
+            game.GetPlayer().collisionInDirection.downColliding = true;
+            game.GetPlayer().CanJump = true;
+       }
+       else
+       {
+            game.GetPlayer().collisionInDirection.downColliding = game.GetPlayer().collisionInDirection.downColliding | false;
+       }
 
+       // -----------------------------------------------------------------------------------
+       //          Detect for going Left
 
+       if (RenderTarget2DSample.Collision.CornerDetection(
+                (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+                (int)(playerVect.X), (int)(playerVect.Y + 20), 4, 24))
+    
+       {   
+           game.GetPlayer().collisionInDirection.leftColliding = true;           
+       }
+       else
+       {
+           game.GetPlayer().collisionInDirection.leftColliding = game.GetPlayer().collisionInDirection.leftColliding | false;
+       }      
 
+       // -----------------------------------------------------------------------------------
+       //           Detect for going right
 
-     Console.WriteLine("nick");
-     ((Game1)Game).collideCount += 1;
+       if (RenderTarget2DSample.Collision.CornerDetection(
+                (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+                (int)(playerVect.X + 28), (int)(playerVect.Y + 20), 4, 24))
+       {   
+           game.GetPlayer().collisionInDirection.rightColliding = true;
+       }
+       else
+       {
+           game.GetPlayer().collisionInDirection.rightColliding = game.GetPlayer().collisionInDirection.rightColliding | false;
+
+       }
+
+       // -----------------------------------------------------------------------------------
+       //           Detect for going up
+
+       if (RenderTarget2DSample.Collision.CornerDetection(
+                (int)(Position.X + changeVector.X), (int)(Position.Y - changeVector.Y), 32, 32,
+                (int)(playerVect.X + 5), (int)(playerVect.Y), 22, 5))
+       {   
+           game.GetPlayer().collisionInDirection.upColliding = true;          
+       }
+       else
+       {
+           game.GetPlayer().collisionInDirection.upColliding = game.GetPlayer().collisionInDirection.upColliding | false;
+       }      
    }
-                       
+   else
+   {
+     //  No Collision at all
+   }                       
   
   }		
 
@@ -106,8 +148,7 @@ namespace RenderTarget2DSample
 
 
 			Position += changeVector;
-
-
+         
             switch (Tile)
             {
                 case MapLoader.TileType.Goo:
@@ -123,46 +164,23 @@ namespace RenderTarget2DSample
                     break;
                 case MapLoader.TileType.Ground:
                 case MapLoader.TileType.Rocks:
-				/*
-                    Vector2 playerVect = ((Game1)this.Game).GetPlayer().Position;
+			
 
-                    Rectangle tmp1 = new Rectangle((int)Position.X , (int)Position.Y, 32,32);
-                    Rectangle tmp2 = new Rectangle((int)playerVect.X,(int)playerVect.Y ,32,64);
 
-                    if (tmp1.Intersects(tmp2)
-						RenderTarget2DSample.Collision.RectDetection(
-							(int)Position.X,	(int)Position.Y,	32,32, 
-							(int)playerVect.X,	(int)playerVect.Y,	32,64)
-						)
+                    break;
+                case MapLoader.TileType.Life:
+                case MapLoader.TileType.Key:
+                    if (((Game1)base.Game).glasses.SelectGlasses == 0)
                     {
-                        Console.WriteLine("nick");
-						((Game1)Game).collideCount += 1;
-	
+                        isVisible = true;
                     }
                     else
                     {
-                        //   Console.WriteLine("none");
-					
-
+                        isVisible = false;
                     }
-					*/
-                break;
-
-                case MapLoader.TileType.Life:
-                case MapLoader.TileType.Key:
-                if (((Game1)base.Game).glasses.SelectGlasses == 0)
-                {
-                    isVisible = true;
-                }
-                else
-                {
-                    isVisible = false;
-                }
-                break;
-                
-            default:
-                break;
-
+                    break;                
+                default:
+                    break;   
 
             }
 

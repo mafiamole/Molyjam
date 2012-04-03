@@ -42,7 +42,7 @@ namespace RenderTarget2DSample
 		
 		FPSCounterComponent 	fps;
 		
-		public int 				collideCount;
+		
 		
 		Texture2D 				animatedTilesheet;
 		/// <summary>
@@ -129,18 +129,15 @@ namespace RenderTarget2DSample
 				(this.Window.ClientBounds.Width / 2 ) - 16,
 				(this.Window.ClientBounds.Height / 2) - 32
 				);
-			//Vector2 playerPos = new Vector2(0,0);
+			
 				
-						this.controls = new Controls(this,glasses);
+			this.controls = new Controls(this,glasses);
 
 			
 			player.Initalise(this,animatedTilesheet,spriteBatch,playerPos);
 			bkgnd.Initialise(Content.Load<Texture2D>("Background2"),800);			
 			
 			Components.Add(fps);
-			
-
-
 		}
 
 		/// <summary>
@@ -174,30 +171,55 @@ namespace RenderTarget2DSample
 		{
 			// Allows the game to exit. If this is a Windows version, I also like to check for an Esc key press. I put
 			// it within an #if WINDOWS .. #endif block since that way it won't run on other platforms.
-			collideCount = 0;
 			
+            player.collisionInDirection.downColliding = false;
+            player.collisionInDirection.leftColliding = false;
+            player.collisionInDirection.rightColliding = false;
+            player.collisionInDirection.upColliding = false;
+
+
 			bool characterJumped = false;
-			
+
+           // player.IsOnFloor = false;
+
 			if (GamePad.GetState (PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
 				|| Keyboard.GetState ().IsKeyDown (Keys.Escape)) 
 			{
 				this.Exit ();
-			}
-			
+			}			
 
 			
 			controls.Update(gameTime,level,player);
+            level.Update(gameTime,controls.changeVector);
 			
-			level.Update(gameTime,controls.changeVector);
-			
-			//
-			
+
+
+            if (player.collisionInDirection.leftColliding && controls.changeVector.X > 0)
+            {
+                controls.changeVector = new Vector2(0, controls.changeVector.Y);
+            }
+            if (player.collisionInDirection.rightColliding && controls.changeVector.X < 0)
+            {
+                controls.changeVector = new Vector2(0, controls.changeVector.Y);
+            }
+
 			bkgnd.Update(gameTime,controls.changeVector);
-			glasses.UpdateMouse(); 
+			glasses.UpdateMouse();         
+
+
+            if (player.collisionInDirection.downColliding && controls.changeVector.Y > 0)
+            {
+                controls.changeVector = new Vector2(controls.changeVector.X, 0);
+            }
+            if (player.collisionInDirection.upColliding && controls.changeVector.Y < 0)
+            {
+                controls.changeVector = new Vector2(controls.changeVector.X, 0);
+            }
+         
+            
 			player.Update(gameTime,controls.changeVector,characterJumped);
 
-
-			base.Update (gameTime);
+            base.Update (gameTime);
 			
 			controls.ClearChangeVector();
 			
@@ -249,5 +271,18 @@ namespace RenderTarget2DSample
 		{
 			return player;	
 		}
+
+      
 	}
 }
+
+// Jumping still needs work :(
+// colliding with animated objects not happening properly :-
+//  - I.e dynamic objects need to act/check other tiles and do stuff with them
+// monster drawn with offset - actual position is correct according to collision
+// colliding up is a bit wrong - i believe this is because player pos updates happen after
+// -- the coll is checked, so wrong 'future vector' is passed in. 
+// ----(like the jump additional y vector change isn't applied when checking for collision).
+// collision needs to have actions based on what, if anything is hit.
+// - could try calling collision check from within the update, and doing action if coll in switch
+// Clamp player to as 32x32 grid?

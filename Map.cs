@@ -56,20 +56,22 @@ namespace RenderTarget2DSample
 			// Perform collision detection
 			foreach (Sprite obj in staticObject)
 			{
-				obj.Collision(gameTime,changeVector);                
+				obj.Collision(gameTime,changeVector,game);
 			}
             foreach (AnimatedSprite obj in dynamicObjects)
             {
-                obj.Collision(gameTime,changeVector);  
+                obj.Collision(gameTime,changeVector, game);  
 			}
-			
-			if (this.game.collideCount > 0) {
-				game.controls.SetChangeVectorX(0);
-				//if (changeVector.Y > 0)
-				//	game.controls.SetChangeVectorY(0);
-					
-				changeVector.X = 0;
-			}
+
+       
+            if (game.GetPlayer().collisionInDirection.rightColliding && changeVector.X < 0)
+            {
+                changeVector = new Vector2(0, changeVector.Y);
+            }
+            if (game.GetPlayer().collisionInDirection.leftColliding && changeVector.X > 0)
+            {
+                changeVector = new Vector2(0, changeVector.Y);
+            }
 			
 			// cue other update actions
 			position += changeVector;

@@ -5,6 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RenderTarget2DSample
 {
+    public struct CollisionInDirection
+    {
+        public bool upColliding;
+        public bool downColliding;
+        public bool leftColliding;
+        public bool rightColliding;
+    }
+
 	public class Player
 	{
 		
@@ -12,9 +20,12 @@ namespace RenderTarget2DSample
 		AnimatedSprite				sprite;
 		Sprite						overlaySprite;
 		int							direction;
-		bool						jumping;
+		bool						jumping = false;
+        bool                        canJump = true;
 		int							jumpStamp;
 		const int					jumpTime = 35;
+        public CollisionInDirection collisionInDirection = new CollisionInDirection();
+
 		Game1						game; // reference to the game.
 		
 		/// <summary>
@@ -23,6 +34,9 @@ namespace RenderTarget2DSample
 		/// <param name='game'>
 		/// Game.
 		/// </param>
+        /// 
+
+
 		public Player (Game1 game)
 		{
 			this.game = game;
@@ -32,13 +46,17 @@ namespace RenderTarget2DSample
 			mapPosition.Y = 0;
 			direction = 0;
 		}
-		
-		/// <summary>
+			
+        public bool Jumping{ get { return jumping; } set { jumping = value; }}
+        public bool CanJump { get { return canJump; } set { canJump = value; } }
+        
+        /// <summary>
 		/// Gets the position.
 		/// </summary>
 		/// <value>
 		/// The position.
 		/// </value>
+        ///
 		public Vector2 Position {
 			get {
 				return sprite.GetPosition; // SetPosition is wanged	
@@ -113,55 +131,36 @@ namespace RenderTarget2DSample
 		/// </param>
 		public void Update (GameTime gameTime, Vector2 changeVector, bool jump)
 		{
-		/*
-			if (!(this.game.collideCount > 0 & changeVector.Y < 0)) {
-				/*
-				if (jumping) {
-					changeVector.Y -= (float)5;
-					Console.WriteLine ("Jumpin");
-					if (gameTime.ElapsedGameTime.Milliseconds > (-jumpStamp + jumpTime)) {
-						jumping = false;
-					}
-				} else {
-			
+            if (jumping)
+            {
+                changeVector.Y -= gameTime.ElapsedGameTime.Milliseconds * 0.6f; 
+                if (changeVector.Y <= -12) { jumping = false; }
+            }
 
-					if (jump) {
-						if (!jumping) {
-							jumpStamp = gameTime.ElapsedGameTime.Milliseconds;
-							jumping = true;
-						}
-					}
-					Console.WriteLine(game.collideCount);
-					if (game.collideCount < 0 && changeVector.Y  > 0) {
-						changeVector.Y = 0;
-					}
-					else {
-						//changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.10f;
-					}
+            if (!collisionInDirection.downColliding)
+            {
+                changeVector.Y += gameTime.ElapsedGameTime.Milliseconds * 0.2f;
+            }
+              
 
-					 //Gravity
-				}
-
-			}
-			else {
-				//changeVector.Y = 0;
-			}
-			*/
 			mapPosition += changeVector;
+            
+            if (changeVector.X > 0 || collisionInDirection.leftColliding)
+            {
 
-			if (changeVector.X > 0) {
-					
-				sprite.flippedHorizonally = true;
-				overlaySprite.flippedHorizonally = true;
-				direction = 1;
-			} else {
-				sprite.flippedHorizonally = false;
-				overlaySprite.flippedHorizonally = false;
-				direction = -1;
-			}
-			
-			sprite.Update (gameTime, changeVector);
-			overlaySprite.Update (gameTime, changeVector);
+                sprite.flippedHorizonally = true;
+                overlaySprite.flippedHorizonally = true;
+                direction = 1;
+            }
+            else
+            {
+                sprite.flippedHorizonally = false;
+                overlaySprite.flippedHorizonally = false;
+                direction = -1;
+            }            
+
+            sprite.Update (gameTime, changeVector);
+            overlaySprite.Update (gameTime, changeVector);
 		}
 		
 		/// <summary>

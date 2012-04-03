@@ -66,23 +66,25 @@ namespace RenderTarget2DSample
 				direction.X += 1;
 			}
 			if (keyboardState.IsKeyDown (Keys.Right)) {
-
 				direction.X += -1;
 			}
 
 			if (keyboardState.IsKeyDown (Keys.Up)) {
-				direction.Y += -1;
+				//direction.Y += -1;
+                if (game.GetPlayer().CanJump)
+                {
+                    changeVect.Y = 0;
+                    game.GetPlayer().CanJump = false;
+                    game.GetPlayer().Jumping = true;
+                }
 			}
 			if (keyboardState.IsKeyDown (Keys.Down) ){
-				direction.Y += 1;
-			}
-			
+                direction.Y += 1;                              
+			}			
 			
 			if (keyboardState.IsKeyDown (Keys.D0)) {
 				Console.Clear ();
 			}
-
-
 
 			if (keyboardState.IsKeyDown (Keys.D1)) {
 				glasses.SelectGlasses = 0;
@@ -96,9 +98,7 @@ namespace RenderTarget2DSample
 
 			if (keyboardState.IsKeyDown (Keys.LeftShift)) {
 				speed.X = PLAYERBASESPEED * 10;
-				speed.Y = PLAYERBASESPEED * 10;
-
-				
+				speed.Y = PLAYERBASESPEED * 10;				
 			}
 			if (keyboardState.IsKeyUp (Keys.LeftShift)) {
 				speed.X = PLAYERBASESPEED;
@@ -116,14 +116,11 @@ namespace RenderTarget2DSample
 			direction.Y = 0;
   
 			this.keyboard ();
-			
+
+
 			int calc1 = (int)level.Position.X - (game.Window.ClientBounds.Width / 2);
             int calc2 = (int)player.MapLocation.X - (game.Window.ClientBounds.Width / 2);			
-			
-			if ((game.collideCount) > 0) {
-				changeVect.X = 0;
-				changeVect.Y = 0;
-			}			
+					
 			
             if ((direction.X == 1) && (calc1 >= 0))//(changeVector.X >= 0) &&
             {
