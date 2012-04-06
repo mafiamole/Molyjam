@@ -131,11 +131,14 @@ namespace RenderTarget2DSample
 		/// </param>
 		public void Update (GameTime gameTime, Vector2 changeVector, bool jump)
 		{
-            if (jumping)
+            if (jumping && !collisionInDirection.upColliding)
             {
                 changeVector.Y -= gameTime.ElapsedGameTime.Milliseconds * 0.6f; 
                 if (changeVector.Y <= -12) { jumping = false; }
             }
+			
+			if (collisionInDirection.upColliding)
+				jumping = false;
 
             if (!collisionInDirection.downColliding)
             {

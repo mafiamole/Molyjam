@@ -1,28 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controls.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Game1.cs">
     <Files>
-      <File FileName="Controls.cs" Line="121" Column="4" />
-      <File FileName="Sprite.cs" Line="170" Column="1" />
-      <File FileName="Game1.cs" Line="183" Column="5" />
-      <File FileName="AnimatedSprite.cs" Line="76" Column="39" />
-      <File FileName="Program.cs" Line="21" Column="1" />
-      <File FileName="Background.cs" Line="68" Column="2" />
-      <File FileName="MapLoader.cs" Line="86" Column="18" />
-      <File FileName="Map.cs" Line="73" Column="4" />
       <File FileName="../../../../SkypeFiles/MapLoader..cs" Line="1" Column="1" />
-      <File FileName="Collision.cs" Line="44" Column="33" />
-      <File FileName="Player.cs" Line="117" Column="1" />
+      <File FileName="Controls.cs" Line="1" Column="1" />
+      <File FileName="Sprite.cs" Line="1" Column="1" />
+      <File FileName="Game1.cs" Line="10" Column="1" />
+      <File FileName="AnimatedSprite.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="13" Column="14" />
+      <File FileName="Background.cs" Line="1" Column="1" />
+      <File FileName="MapLoader.cs" Line="1" Column="1" />
+      <File FileName="Map.cs" Line="1" Column="1" />
+      <File FileName="Collision.cs" Line="1" Column="1" />
+      <File FileName="Player.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="FourEyes" expanded="True">
+          <Node name="FourEyes" expanded="True" selected="True">
             <Node name="References" expanded="True" />
             <Node name="Content" expanded="True">
               <Node name="Protagonist" expanded="True" />
             </Node>
-            <Node name="Controls.cs" selected="True" />
           </Node>
         </State>
       </Pad>
